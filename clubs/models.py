@@ -7,6 +7,14 @@ from libgravatar import Gravatar
 
 # Create the User model
 class User(AbstractUser):
+    EXPERIENCE_LEVELS = (
+        ("beginner", "Beginner"),
+        ("intermediate", "Intermediate"),
+        ("advanced", "Advanced"),
+        ("master", "Master"),
+        ("professional", "Professional")
+    )
+
     username = models.CharField(
         max_length = 30,
         unique=True
@@ -14,14 +22,7 @@ class User(AbstractUser):
     first_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)
     email = models.EmailField(unique = True, blank = False)
-    experience = models.CharField(
-        label = "What is your experience level?",
-        widget = models.Select(
-            choices = [("beginner", "Beginner"), ("intermediate", "Intermediate"), 
-                       ("advanced", "Advanced"), ("proficient", "Proficient")
-                       ]
-            )
-    )
+    experience = models.CharField(max_length=12, choices=EXPERIENCE_LEVELS, default='beginner')
     bio = models.CharField(max_length = 520, blank = True)
 
     def full_name(self):

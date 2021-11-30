@@ -4,6 +4,8 @@ from clubs.models import User
 
 class Command(BaseCommand):
     """The database seeder."""
+    PASSWORD = "Password123"
+
     def __init__(self):
         super().__init__()
         self.faker = Faker('en_GB')
@@ -23,7 +25,7 @@ class Command(BaseCommand):
                 first_name = fakeName,
                 last_name = fakeLastName,
                 email = fakeEmail,
-                password = 'Password123',
+                password = Command.PASSWORD,
                 experience = 'beginner',
                 bio = fakeBio
             )

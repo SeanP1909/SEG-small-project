@@ -12,3 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 # Create the main page view
 def home(request):
     return render(request, 'home.html')
+
+def log_out(request):
+    logout(request)
+    return redirect('home')

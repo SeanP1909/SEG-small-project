@@ -14,6 +14,14 @@ class User(AbstractUser):
     first_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)
     email = models.EmailField(unique = True, blank = False)
+    experience = models.CharField(
+        label = "What is your experience level?",
+        widget = models.Select(
+            choices = [("beginner", "Beginner"), ("intermediate", "Intermediate"), 
+                       ("advanced", "Advanced"), ("proficient", "Proficient")
+                       ]
+            )
+    )
     bio = models.CharField(max_length = 520, blank = True)
 
     def full_name(self):

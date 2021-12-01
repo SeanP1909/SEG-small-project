@@ -25,5 +25,5 @@ def log_in(request):
     #             login(request, user)
     #             return redirect('feed')
     #     messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
-    form = LogInForm()
+    #form = LogInForm()
     return render(request, 'log_in.html', {'form': form})

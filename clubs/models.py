@@ -37,3 +37,35 @@ class User(AbstractUser):
     def mini_gravatar(self):
         """Return a URL to the user's miniature gravatar."""
         return self.gravatar(size=60)
+
+# Create the Club model.
+class Club():
+    name = models.CharField(
+        max_length = 50,
+        unique = True
+        validators=[
+            RegexValidator(
+                regex = r'^\w{3,}$',
+                message = 'The name of the club must contain at least three character of any kind!'
+                )
+        ]
+    )
+    population = models.IntegerField()
+    location = models.CharField(max_length = 50)
+    description = models.CharField(max_length = 520, blank = True)
+    mission_statement = models.CharField(max_length = 520, blank = True)
+
+    def get_name(self):
+        return self.name
+
+    def get_population(self):
+        return self.population
+    
+    def get_location(self):
+        return self.location
+
+    def get_description(self):
+        return self.description
+
+    def get_mission_statement(self):
+        return self.mission_statement

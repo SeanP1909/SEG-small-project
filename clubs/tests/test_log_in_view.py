@@ -4,7 +4,6 @@ from django.test import TestCase
 from django.urls import reverse
 from clubs.forms import LogInForm
 from clubs.models import User
-from clubs.tests.helpers import LogInTester
 
 class LogInViewTestCase(TestCase, LogInTester):
     """Tests of the log in view."""
@@ -22,6 +21,9 @@ class LogInViewTestCase(TestCase, LogInTester):
 
     def test_log_in_url(self):
         self.assertEqual(self.url,'/log_in/')
+        
+    def _is_logged_in(self):
+        return '_auth_user_id' in self.client.session.keys()
 
     def test_get_log_in(self):
         response = self.client.get(self.url)
@@ -81,3 +83,4 @@ class LogInViewTestCase(TestCase, LogInTester):
         self.assertTemplateUsed(response, 'feed.html')
         messages_list = list(response.context['messages'])
         self.assertEqual(len(messages_list), 0)
+

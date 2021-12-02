@@ -11,7 +11,13 @@ class User(AbstractUser):
     #User model atributes.
     username = models.CharField(
         max_length = 30,
-        unique=True
+        unique=True,
+        validators=[
+            RegexValidator(
+                regex = r'^\w{3,}$',
+                message = 'The username must contain at least three character of any kind!'
+                )
+        ]
     )
     first_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)

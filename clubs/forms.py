@@ -9,7 +9,7 @@ class SignUpForm(forms.ModelForm):
         widgets = { "bio": forms.Textarea() }
 
     new_password = forms.CharField(
-        label="Password", 
+        label="Password",
         widget=forms.PasswordInput(),
         validators=[
             RegexValidator(
@@ -34,6 +34,7 @@ class SignUpForm(forms.ModelForm):
                 first_name = self.cleaned_data.get('first_name'),
                 last_name = self.cleaned_data.get('last_name'),
                 email = self.cleaned_data.get('email'),
+                experience = self.cleaned_data.get('experience'),
                 bio = self.cleaned_data.get('bio'),
                 password = self.cleaned_data.get('new_password'),
             )

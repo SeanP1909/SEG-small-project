@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-{% extends "base_content.html" %}
-{% block title %}
-| Login
-{% endblock %}
-{% block content %}
-<div class="container">
-  <div class="row">
+<html>
+<head>
+  <title>Chess club</title>
+</head>
+<body>
     <h1>Log in</h1>
+    {%for message in messages%}
+    <p><b>{{ message }}</b></p>
+    {%end for%}
     <form action="{% url 'log_in' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
     <input type="submit" value="Log in">
-  </div>
-</div>
-{% endblock %}
+  </form>
+    </body>
+</html>

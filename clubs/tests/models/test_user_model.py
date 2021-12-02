@@ -15,6 +15,10 @@ class UserModelTestCase(TestCase):
     def test_valid_user(self):
         self._assert_user_is_valid()
 
+    def test_username_must_have_at_least_three_alphanumericals(self):
+        self.user.username = 'us'
+        self._assert_user_is_invalid()
+
     def test_username_cannot_be_blank(self):
         self.user.username = ''
         self._assert_user_is_invalid()

@@ -1,4 +1,4 @@
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from libgravatar import Gravatar
@@ -42,7 +42,7 @@ class User(AbstractUser):
 class Club():
     name = models.CharField(
         max_length = 50,
-        unique = True
+        unique = True,
         validators=[
             RegexValidator(
                 regex = r'^\w{3,}$',
@@ -50,22 +50,19 @@ class Club():
                 )
         ]
     )
-    population = models.IntegerField()
-    location = models.CharField(max_length = 50)
+    population = models.PositiveIntegerField(
+        default = 0,
+        validators=[
+            MaxValueValidator(100)
+        ]
+    )
+    location = models.CharField(
+        max_length = 100,
+        validators=[
+            RegexValidator(
+                regex = r'',
+                message = 'The location should start with an uppercase letter'
+            )
+        ]
+    )
     description = models.CharField(max_length = 520, blank = True)
-    mission_statement = models.CharField(max_length = 520, blank = True)
-
-    def get_name(self):
-        return self.name
-
-    def get_population(self):
-        return self.population
-    
-    def get_location(self):
-        return self.location
-
-    def get_description(self):
-        return self.description
-
-    def get_mission_statement(self):
-        return self.mission_statement

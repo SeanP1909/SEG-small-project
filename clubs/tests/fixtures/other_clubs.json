@@ -1,0 +1,37 @@
+[
+    {
+      "model": "clubs.club",
+      "pk": 2,
+      "fields": {
+        "name": "Chessy",
+        "population": 21,
+        "location": "Plovdiv",
+        "description": "Hello, this is my club!",
+        "is_active": true
+      }
+    },
+
+    {
+      "model": "clubs.club",
+      "pk": 3,
+      "fields": {
+        "name": "Hubby",
+        "population": 99,
+        "location": "Winchester",
+        "description": "",
+        "is_active": true
+      }
+    },
+
+    {
+        "model": "clubs.club",
+        "pk": 4,
+        "fields": {
+          "name": "Ivan's chess club",
+          "population": 88,
+          "location": "Rome",
+          "description": "BTW, I am looking at my chess club.",
+          "is_active": true
+        }
+      }
+]

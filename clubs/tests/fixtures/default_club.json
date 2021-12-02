@@ -1,0 +1,13 @@
+[
+    {
+      "model": "clubs.club",
+      "pk": 1,
+      "fields": {
+        "name": "ChessHub",
+        "population": 25,
+        "location": "London",
+        "description": "This is my chess club.",
+        "is_active": true
+      }
+    }
+  ]

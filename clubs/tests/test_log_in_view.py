@@ -2,7 +2,7 @@
 from django.contrib import messages
 from django.test import TestCase
 from django.urls import reverse
-from clubs.forms import SignUpForm
+from clubs.forms import LogInForm
 from clubs.models import User
 from clubs.tests.helpers import LogInTester
 

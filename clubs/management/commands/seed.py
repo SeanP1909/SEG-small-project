@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from faker import Faker
-from clubs.models import User
+from clubs.models import User, Club
 
 class Command(BaseCommand):
     """The database seeder."""
@@ -28,4 +28,15 @@ class Command(BaseCommand):
                 password = Command.PASSWORD,
                 experience = 'beginner',
                 bio = fakeBio
+            )
+
+        for i in range(10):
+            fakeName = self.faker.company()
+            fakeLocation = self.faker.address()
+            fakeDescription = self.faker.text(max_nb_chars = 520)
+
+            Club.objects.create(
+                name = fakeName,
+                location = fakeLocation,
+                description = fakeDescription,
             )

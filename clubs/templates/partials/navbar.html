@@ -12,13 +12,17 @@
           <a class="nav-link" href="{% url 'home' %}">Clubs</a>
         </li>
       </ul>
+      {% if user.is_authenticated %}
+      {% include 'partials/menu.html' %}
+      {% else %}
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" href="{% url 'sign_up' %}">Sign up</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Log in</a>
+          <a class="nav-link" href="{% url 'log_in' %}">Log in</a>
         </li>
+        {% endif %}
       </div>
     </div>
   </nav>

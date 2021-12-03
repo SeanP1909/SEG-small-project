@@ -1,4 +1,4 @@
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from libgravatar import Gravatar
@@ -37,3 +37,18 @@ class User(AbstractUser):
     def mini_gravatar(self):
         """Return a URL to the user's miniature gravatar."""
         return self.gravatar(size=60)
+
+# Create the Club model.
+class Club(models.Model):
+    name = models.CharField(
+        max_length = 50,
+        unique = True,
+        validators=[
+            RegexValidator(
+                regex = r'^\w{3,}$',
+                message = 'The name of the club must contain at least three character of any kind!'
+                )
+        ]
+    )
+    location = models.CharField(max_length = 100)
+    description = models.CharField(max_length = 520, blank = True)

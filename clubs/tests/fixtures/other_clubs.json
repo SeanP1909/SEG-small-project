@@ -1,0 +1,31 @@
+[
+    {
+      "model": "clubs.club",
+      "pk": 2,
+      "fields": {
+        "name": "Chessy",
+        "location": "Plovdiv",
+        "description": "Hello, this is my club!"
+      }
+    },
+
+    {
+      "model": "clubs.club",
+      "pk": 3,
+      "fields": {
+        "name": "Hubby",
+        "location": "Winchester",
+        "description": ""
+      }
+    },
+
+    {
+        "model": "clubs.club",
+        "pk": 4,
+        "fields": {
+          "name": "Avalon",
+          "location": "Rome",
+          "description": "BTW, I am looking at my chess club."
+        }
+      }
+]

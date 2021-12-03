@@ -32,27 +32,23 @@ class ClubModelTestCase(TestCase):
 
 # Population tests.
     def test_population_is_a_positive_integer_number(self):
-        self.club.population=
+        self.club.population=2
         self._assert_club_is_valid()
 
     def test_population_is_not_negative_number(self):
-        self.club.population=
-        self._assert_club_is_invalid()
-
-    def test_population_is_not_a_string(self):
-        self.club.population=""
+        self.club.population=-2
         self._assert_club_is_invalid()
 
     def test_population_is_not_empty(self):
-        self.club.population=
+        self.club.population=''
         self._assert_club_is_invalid()
 
     def test_population_is_less_than_100_people(self):
-        self.club.population='x' * 100
+        self.club.population=99
         self._assert_club_is_valid()
 
     def test_population_is_no_more_than_100_people(self):
-        self.club.population='x' * 101
+        self.club.population=101
         self._assert_club_is_invalid()
 
 # Location tests.

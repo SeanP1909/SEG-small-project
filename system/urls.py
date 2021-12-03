@@ -1,5 +1,5 @@
-"""system URL Configuration
 
+"""system URL Configuration
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
 Examples:
@@ -20,5 +20,7 @@ from clubs import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name = 'home'),
+    path('sign_up/', views.sign_up, name = 'sign_up'),
+    path('log_in/', views.log_in, name = 'log_in'),
     path('log_out/', views.log_out, name='log_out'),
 ]

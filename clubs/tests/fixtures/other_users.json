@@ -1,0 +1,44 @@
+[
+  {
+    "model": "clubs.user",
+    "pk": 2,
+    "fields": {
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "username": "janedoe",
+      "email": "janedoe@example.org",
+      "password": "pbkdf2_sha256$260000$iGkOGC00dvNVncr3rtGWdL$IkIyONd+R4mPoN4APRvVqk5tGVLa3xocSQ2qJur+VZo=",
+      "experience": "beginner",
+      "bio": "Hi, my name is Jane.",
+      "is_active": true
+    }
+  },
+  {
+    "model": "clubs.user",
+    "pk": 3,
+    "fields": {
+      "first_name": "Roy",
+      "last_name": "Batty",
+      "username": "roybatty",
+      "email": "roybatty@example.org",
+      "password": "pbkdf2_sha256$260000$iGkOGC00dvNVncr3rtGWdL$IkIyONd+R4mPoN4APRvVqk5tGVLa3xocSQ2qJur+VZo=",
+      "experience": "professional",
+      "bio": "All those moments will be lost like tears in the rain.",
+      "is_active": true
+    }
+  },
+  {
+    "model": "clubs.user",
+    "pk": 4,
+    "fields": {
+      "first_name": "Gregor",
+      "last_name": "Samsa",
+      "username": "gregorsamsa",
+      "email": "gregorsamsa@example.org",
+      "password": "pbkdf2_sha256$260000$iGkOGC00dvNVncr3rtGWdL$IkIyONd+R4mPoN4APRvVqk5tGVLa3xocSQ2qJur+VZo=",
+      "experience": "beginner",
+      "bio": "Is it just me or am I actually a bug?",
+      "is_active": true
+    }
+  }
+]

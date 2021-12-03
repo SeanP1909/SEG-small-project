@@ -39,7 +39,7 @@ class User(AbstractUser):
         return self.gravatar(size=60)
 
 # Create the Club model.
-class Club():
+class Club(models.Model):
     name = models.CharField(
         max_length = 50,
         unique = True,

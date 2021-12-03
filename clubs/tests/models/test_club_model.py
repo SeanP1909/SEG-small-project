@@ -86,3 +86,14 @@ class ClubModelTestCase(TestCase):
     def test_description_cannot_have_over_520_chars(self):
         self.club.description='x' * 521
         self._assert_club_is_invalid()
+
+# Test case assertions
+    def _assert_user_is_valid(self):
+        try:
+            self.user.full_clean()
+        except (ValidationError):
+            self.fail('Test user should be valid')
+
+    def _assert_user_is_invalid(self):
+        with self.assertRaises(ValidationError):
+            self.user.full_clean()

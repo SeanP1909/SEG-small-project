@@ -6,7 +6,7 @@ from clubs.forms import LogInForm
 class LogInFormTestCase(TestCase):
     """Unit tests of the log in form."""
     def setUp(self):
-        self.form_input = {'username': '@aabbce', 'password': 'Password123'}
+        self.form_input = {'username': 'aabbce', 'password': 'Password123'}
 
     def test_form_contains_required_fields(self):
         form = LogInForm()

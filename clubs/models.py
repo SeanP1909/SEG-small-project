@@ -50,11 +50,5 @@ class Club(models.Model):
                 )
         ]
     )
-    population = models.PositiveIntegerField(
-        default = 0,
-        validators=[
-            MaxValueValidator(100)
-        ]
-    )
     location = models.CharField(max_length = 100)
     description = models.CharField(max_length = 520, blank = True)

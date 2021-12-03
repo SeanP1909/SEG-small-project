@@ -27,7 +27,7 @@
         "model": "clubs.club",
         "pk": 4,
         "fields": {
-          "name": "Ivan's chess club",
+          "name": "Avalon",
           "population": 88,
           "location": "Rome",
           "description": "BTW, I am looking at my chess club.",

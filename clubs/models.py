@@ -56,13 +56,5 @@ class Club():
             MaxValueValidator(100)
         ]
     )
-    location = models.CharField(
-        max_length = 100,
-        validators=[
-            RegexValidator(
-                regex = r'',
-                message = 'The location should start with an uppercase letter'
-            )
-        ]
-    )
+    location = models.CharField(max_length = 100)
     description = models.CharField(max_length = 520, blank = True)

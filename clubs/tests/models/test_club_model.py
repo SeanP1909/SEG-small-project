@@ -31,4 +31,62 @@ class ClubModelTestCase(TestCase):
         self._assert_club_is_invalid()
 
 # Population tests.
-    def 
+    def test_population_is_a_positive_integer_number(self):
+        self.club.population=
+        self._assert_club_is_valid()
+
+    def test_population_is_not_negative_number(self):
+        self.club.population=
+        self._assert_club_is_invalid()
+
+    def test_population_is_not_a_string(self):
+        self.club.population=""
+        self._assert_club_is_invalid()
+
+    def test_population_is_not_empty(self):
+        self.club.population=
+        self._assert_club_is_invalid()
+
+    def test_population_is_less_than_100_people(self):
+        self.club.population='x' * 100
+        self._assert_club_is_valid()
+
+    def test_population_is_no_more_than_100_people(self):
+        self.club.population='x' * 101
+        self._assert_club_is_invalid()
+
+# Location tests.
+    def test_location_is_not_blank(self):
+        self.club.location=''
+        self._assert_club_is_invalid()
+
+    def test_location_is_not_unique(self):
+        second_club = Club.objects.get(name='Hubby')
+        self.club.location = second_club.location
+        self._assert_club_is_valid()
+
+    def test_location_can_have_less_than_100_characters(self):
+        self.club.location='x' * 100
+        self._assert_club_is_valid()
+
+    def test_location_cannot_have_more_than_50_characters(self):
+        self.club.location='x' * 101
+        self._assert_club_is_invalid()
+
+# Description tests.
+    def test_description_can_be_blank(self):
+        self.club.description=''
+        self._assert_club_is_valid()
+
+    def test_description_may_not_be_unique(self):
+        second_club = Club.objects.get(name='Avalon')
+        self.club.description = second_club.description
+        self._assert_club_is_valid()
+
+    def test_description_may_have_520_chars(self):
+        self.club.bio='x' * 520
+        self._assert_club_is_valid()
+
+    def test_description_cannot_have_over_520_chars(self):
+        self.club.description='x' * 521
+        self._assert_club_is_invalid()

@@ -26,7 +26,6 @@ def sign_up(request):
     return render(request, 'sign_up.html', {'form': form})
 
 
-
 def log_in(request):
     if request.method == 'POST':
         form = LogInForm(request.POST)
@@ -44,7 +43,7 @@ def log_in(request):
     form = LogInForm()
     return render(request, 'log_in.html', {'form': form})
   
-  def log_out(request):
+def log_out(request):
     logout(request)
     return redirect('home')
 

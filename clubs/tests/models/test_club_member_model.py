@@ -24,10 +24,11 @@ class ClubMemberModelTestCase(TestCase):
 # Test club member must be a unique entry.
     def test_club_member_must_be_unique(self):
         second_club_member = ClubMember.objects.get(
-            user = 1,
-            club = 1   
+            user = 3,
+            club = 3   
         )
-        self.clubmember = second_club_member
+        self.clubmember.user = second_club_member.user
+        self.clubmember.club = second_club_member.club
         self._assert_club_member_is_invalid()
 
 # Test database reaction upon deleting the content of a foreign key.

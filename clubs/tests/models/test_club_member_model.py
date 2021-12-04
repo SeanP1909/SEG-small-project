@@ -17,20 +17,21 @@ class ClubMemberModelTestCase(TestCase):
         self.user = User.objects.get(username = 'johndoe')
         self.club = Club.objects.get(name = 'ChessHub')
         self.clubmember = ClubMember.objects.get(
-            username = 'johndoe',
-            name = 'ChessHub'
+            user = 1,
+            club = 1
         )
 
 # Test club member must be a unique entry.
     def test_club_member_must_be_unique(self):
         second_club_member = ClubMember.objects.get(
-            username='janedoe',
-            name='Chessy')
+            user = 2,
+            club = 2
+        )
         self.clubmember = second_club_member
         self._assert_club_member_is_invalid()
 
-# Test 
-    def test_club_member_Table_is_deleted_upon_deleting_the_club_model(self):
+# Test database reaction upon deleting the content of a foreign key.
+    def test_club_member_table_is_deleted_upon_deleting_the_club_model(self):
         self.club.delete()
         with self.assertRaises(ClubMember.DoesNotExist):
             ClubMember.objects.get(pk = self.clubmember.pk)

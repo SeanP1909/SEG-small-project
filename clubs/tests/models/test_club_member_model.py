@@ -24,8 +24,8 @@ class ClubMemberModelTestCase(TestCase):
 # Test club member must be a unique entry.
     def test_club_member_must_be_unique(self):
         second_club_member = ClubMember.objects.get(
-            user = 2,
-            club = 2
+            user = 1,
+            club = 1   
         )
         self.clubmember = second_club_member
         self._assert_club_member_is_invalid()

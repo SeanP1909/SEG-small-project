@@ -82,4 +82,4 @@ class SignUpViewTestCase(TestCase, LogInTester):
         self.assertEqual(user.bio, 'Hi, my name is Jane.')
         is_password_correct = check_password('Password123', user.password)
         self.assertTrue(is_password_correct)
-        #self.assertTrue(self.is_logged_in())
+        self.assertTrue(self.is_logged_in())

@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import SignUpForm, LogInForm
+from .models import Club
 
 # Create the main page view
 def home(request):
@@ -19,7 +20,8 @@ def sign_up(request):
     if request.method=='POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             return redirect('home')
     else:
         form = SignUpForm()
@@ -42,8 +44,18 @@ def log_in(request):
         next = request.POST.get('next') or ''
     form = LogInForm()
     return render(request, 'log_in.html', {'form': form})
-  
+
 def log_out(request):
     logout(request)
     return redirect('home')
 
+"""Club page view"""
+def show_club(request, club_id):
+    try:
+        club = Club.objects.get(id=club_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
+    else:
+        return render(request, 'show_club.html',
+            {'club': club,}
+        )

@@ -34,7 +34,7 @@ class ClubOfficerModelTestCase(TestCase):
 # Test database reaction upon deleting the content of a foreign key.
     def test_club_officer_table_is_deleted_upon_deleting_the_club_model(self):
         self.club.delete()
-        with self.assertRaises(ClubMember.DoesNotExist):
+        with self.assertRaises(ClubOfficer.DoesNotExist):
             ClubOfficer.objects.get(pk = self.clubofficer.pk)
         self._assert_club_officer_is_invalid()
 

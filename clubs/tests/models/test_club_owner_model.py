@@ -8,7 +8,7 @@ class ClubOwnerModelTestCase(TestCase):
 
     fixtures = ['clubs/tests/fixtures/default_user.json',
                 'clubs/tests/fixtures/default_club.json',
-                'clubs/tests/fixtures/default_club_oowner.json',
+                'clubs/tests/fixtures/default_club_owner.json',
                 'clubs/tests/fixtures/other_users.json',
                 'clubs/tests/fixtures/other_clubs.json',
                 'clubs/tests/fixtures/other_club_owners.json']
@@ -27,14 +27,14 @@ class ClubOwnerModelTestCase(TestCase):
             user = 4,
             club = 4   
         )
-        self.clubowner.user = second_club_ownerr.user
+        self.clubowner.user = second_club_owner.user
         self.clubowner.club = second_club_owner.club
         self._assert_club_owner_is_invalid()
 
 # Test database reaction upon deleting the content of a foreign key.
     def test_club_owner_table_is_deleted_upon_deleting_the_club_model(self):
         self.club.delete()
-        with self.assertRaises(ClubMember.DoesNotExist):
+        with self.assertRaises(ClubOwner.DoesNotExist):
             ClubOwner.objects.get(pk = self.clubowner.pk)
         self._assert_club_owner_is_invalid()
 

@@ -8,10 +8,10 @@ class ClubMemberModelTestCase(TestCase):
 
     fixtures = ['clubs/tests/fixtures/default_user.json',
                 'clubs/tests/fixtures/default_club.json',
-                'clubs/tests/fixtures/default_clubmember.json',
+                'clubs/tests/fixtures/default_club_member.json',
                 'clubs/tests/fixtures/other_users.json',
                 'clubs/tests/fixtures/other_clubs.json',
-                'clubs/tests/fixtures/other_clubmembers.json']
+                'clubs/tests/fixtures/other_club_members.json']
 
     def setUp(self):
         self.user = User.objects.get(username = 'johndoe')

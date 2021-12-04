@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% extends "base_content.html" %}
+{% block title %}
+| User Profile
+{% endblock %}
+{% block content %}
+<section class="profile-wrapper">
+
+    <div class="container">
+
+        <div class="row row-wrapper">
+
+            <div class="col-lg-4 col-md-12 col-sm-12 left">
+
+                <div class="user-card">
+
+                    <div class="profile-avatar">
+                        <div class="image-wrapper">
+                            <img src="{{ user.gravatar }}" alt="profile avatar">
+                        </div>
+                    </div>
+
+                    <nav class="extended-card-nav">
+                        <ul>
+                            <li><a href="{% url 'profile' %}">Account details</a></li>
+                            <li class="active"><a href="#">Club details</a></li>
+                            <li><a href="{% url 'log_out' %}">Log out</a></li>
+                        </ul>
+                    </nav>
+
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-8 col-md-12 col-sm-12 right tab-content-wrapper">
+
+                <div class="user-card extended-user-card tab-item" id="club-details">
+                    <div class="user-info">
+                        <p>Club details</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

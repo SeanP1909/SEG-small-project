@@ -9,8 +9,8 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import SignUpForm, LogInForm, UpdateForm
-
 from django.contrib.auth.forms import UserChangeForm
+from .models import Club
 
 # Create the main page view
 def home(request):
@@ -21,7 +21,8 @@ def sign_up(request):
     if request.method=='POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             return redirect('home')
     else:
         form = SignUpForm()
@@ -61,3 +62,14 @@ def profile(request):
 
 def profile_clubs(request):
     return render(request, 'profile_clubs.html')    
+
+"""Club page view"""
+def show_club(request, club_id):
+    try:
+        club = Club.objects.get(id=club_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
+    else:
+        return render(request, 'show_club.html',
+            {'club': club,}
+        )

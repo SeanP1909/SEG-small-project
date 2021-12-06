@@ -8,7 +8,7 @@ from django.http import HttpResponseForbidden
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import SignUpForm, LogInForm, UpdateForm
+from .forms import SignUpForm, LogInForm, UpdateForm, ClubCreationForm
 from django.contrib.auth.forms import UserChangeForm
 from .models import Club
 
@@ -61,9 +61,9 @@ def profile(request):
     return render(request, 'profile.html', {'form': form})
 
 def profile_clubs(request):
-    return render(request, 'profile_clubs.html')    
+    return render(request, 'profile_clubs.html')
 
-"""Club page view"""
+# Club page view
 def show_club(request, club_id):
     try:
         club = Club.objects.get(id=club_id)
@@ -73,3 +73,14 @@ def show_club(request, club_id):
         return render(request, 'show_club.html',
             {'club': club,}
         )
+
+# View for the club creator
+def club_creator(request):
+    if request.method=='POST':
+        form = ClubCreationForm(request.POST)
+        if form.is_valid():
+            club = form.save()
+            return redirect('show_club', club.id)
+    else:
+        form = ClubCreationForm()
+    return render(request, 'club_creator.html', {'form': form})

@@ -8,7 +8,8 @@ from django.http import HttpResponseForbidden
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import SignUpForm, LogInForm
+from .forms import SignUpForm, LogInForm, UpdateForm
+from django.contrib.auth.forms import UserChangeForm
 from .models import Club
 
 # Create the main page view
@@ -48,6 +49,19 @@ def log_in(request):
 def log_out(request):
     logout(request)
     return redirect('home')
+
+def profile(request):
+    if request.method=='POST':
+        form = UpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = UpdateForm(instance=request.user)
+    return render(request, 'profile.html', {'form': form})
+
+def profile_clubs(request):
+    return render(request, 'profile_clubs.html')    
 
 """Club page view"""
 def show_club(request, club_id):

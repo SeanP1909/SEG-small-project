@@ -1,7 +1,7 @@
 from django import forms
 from django.core.validators import RegexValidator
 from .models import User
-
+from django.contrib.auth.forms import UserChangeForm
 
 class SignUpForm(forms.ModelForm):
     class Meta:
@@ -44,3 +44,9 @@ class SignUpForm(forms.ModelForm):
 class LogInForm(forms.Form):
     username = forms.CharField(label="Username")
     password = forms.CharField(label="Password", widget=forms.PasswordInput())
+
+class UpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name", "username", "email", "experience", "bio"]
+        widgets = { "bio": forms.Textarea() }

@@ -1,0 +1,10 @@
+[
+    {
+      "model": "clubs.clubowner",
+      "pk": 1,
+      "fields": {
+        "user": 1,
+        "club": 1
+      }
+    }
+]

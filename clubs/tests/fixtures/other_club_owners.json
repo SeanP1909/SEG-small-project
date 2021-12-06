@@ -1,0 +1,28 @@
+[
+    {
+      "model": "clubs.clubowner",
+      "pk": 2,
+      "fields": {
+        "user": 2,
+        "club": 2
+      }
+    },
+
+    {
+      "model": "clubs.clubowner",
+      "pk": 3,
+      "fields": {
+        "user": 3,
+        "club": 3 
+      }
+    },
+
+    {
+        "model": "clubs.clubowner",
+        "pk": 4,
+        "fields": {
+          "user": 4,
+          "club": 4 
+        }
+      }
+]

@@ -8,22 +8,22 @@ from clubs.tests.helpers import LogInTester
 class ClubCreatorTestCase(TestCase, LogInTester):
     """Tests the Sign Up View"""
 
-    fixtures = ['clubs/tests/fixtures/default_user.json',
-                'clubs/tests/fixtures/default_club.json',]
+    fixtures = ['clubs/tests/fixtures/default_user.json',]
 
     def setUp(self):
         self.url = reverse('club_creator')
+        self.user = User.objects.get(username='johndoe')
         self.form_input = {
             'name': 'Chesser',
             'location': 'London',
             'description': 'This is a chess club.',
         }
-        self.user = User.objects.get(username='johndoe')
 
     def test_club_creator_url(self):
         self.assertEqual(self.url, '/club_creator/')
 
     def test_get_club_creator(self):
+        self.client.login(username=self.user.username, password='Password123')
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'club_creator.html')
@@ -32,6 +32,7 @@ class ClubCreatorTestCase(TestCase, LogInTester):
         self.assertFalse(form.is_bound)
 
     def test_unsuccessful_club_creation(self):
+        self.client.login(username=self.user.username, password='Password123')
         before_count = Club.objects.count()
         self.form_input ['name'] = 'na'
         response = self.client.post(self.url, self.form_input)
@@ -44,6 +45,7 @@ class ClubCreatorTestCase(TestCase, LogInTester):
         self.assertTrue(form.is_bound)
 
     def test_successful_club_creation(self):
+        self.client.login(username=self.user.username, password='Password123')
         before_count = Club.objects.count()
         response = self.client.post(self.url, self.form_input, follow = True)
         after_count = Club.objects.count()

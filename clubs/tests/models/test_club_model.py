@@ -1,16 +1,23 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
-from clubs.models import Club
+from clubs.models import User, Club
+from clubs.tests.helpers import CreateClub
 
 # Create your tests here.
-class ClubModelTestCase(TestCase):
+class ClubModelTestCase(CreateClub, TestCase):
     """Unit tests of the club model."""
 
-    fixtures = ['clubs/tests/fixtures/default_club.json',
-                'clubs/tests/fixtures/other_clubs.json']
+    fixtures = ['clubs/tests/fixtures/default_user.json',]
 
     def setUp(self):
-        self.club = Club.objects.get(name = 'ChessHub')
+        super(TestCase, self).setUp()
+        self.user = User.objects.get(username='johndoe')
+        self.club = Club(
+            owner=self.user,
+            name="ChessHub",
+            location="London",
+            description="This is a chess club."
+        )
 
 # Name tests.
     def test_name_is_not_blank(self):
@@ -18,8 +25,8 @@ class ClubModelTestCase(TestCase):
         self._assert_club_is_invalid()
 
     def test_name_must_be_unique(self):
-        second_club = Club.objects.get(name='Chessy')
-        self.club.name = second_club.name
+        second_club=self._create_other_club()
+        self.club.name=second_club.name
         self._assert_club_is_invalid()
 
     def test_name_can_have_less_than_50_characters(self):
@@ -36,7 +43,7 @@ class ClubModelTestCase(TestCase):
         self._assert_club_is_invalid()
 
     def test_location_is_not_unique(self):
-        second_club = Club.objects.get(name='Hubby')
+        second_club = self._create_other_club()
         self.club.location = second_club.location
         self._assert_club_is_valid()
 
@@ -53,8 +60,8 @@ class ClubModelTestCase(TestCase):
         self.club.description=''
         self._assert_club_is_valid()
 
-    def test_description_may_not_be_unique(self):
-        second_club = Club.objects.get(name='Avalon')
+    def test_description_does_not_need_to_be_unique(self):
+        second_club=self._create_other_club()
         self.club.description = second_club.description
         self._assert_club_is_valid()
 

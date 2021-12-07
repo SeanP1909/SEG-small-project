@@ -80,6 +80,7 @@ def club_creator(request):
         form = ClubCreationForm(request.POST)
         if form.is_valid():
             club = form.save()
+
             return redirect('show_club', club.id)
     else:
         form = ClubCreationForm()

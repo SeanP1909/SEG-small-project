@@ -8,7 +8,7 @@ from django.http import HttpResponseForbidden
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import SignUpForm, LogInForm
+from .forms import SignUpForm, LogInForm, UpdateForm
 from .models import Club
 
 # Create the main page view
@@ -20,7 +20,8 @@ def sign_up(request):
     if request.method=='POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             return redirect('home')
     else:
         form = SignUpForm()
@@ -43,7 +44,7 @@ def log_in(request):
         next = request.POST.get('next') or ''
     form = LogInForm()
     return render(request, 'log_in.html', {'form': form})
-  
+
 def log_out(request):
     logout(request)
     return redirect('home')
@@ -51,3 +52,27 @@ def log_out(request):
 def clubs(request):
     clubs = Club.objects.all()
     return render(request, 'clubs.html', {'clubs': clubs})
+
+def profile(request):
+    if request.method=='POST':
+        form = UpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = UpdateForm(instance=request.user)
+    return render(request, 'profile.html', {'form': form})
+
+def profile_clubs(request):
+    return render(request, 'profile_clubs.html')    
+
+"""Club page view"""
+def show_club(request, club_id):
+    try:
+        club = Club.objects.get(id=club_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
+    else:
+        return render(request, 'show_club.html',
+            {'club': club,}
+        )

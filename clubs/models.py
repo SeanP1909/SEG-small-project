@@ -52,3 +52,24 @@ class Club(models.Model):
     )
     location = models.CharField(max_length = 100)
     description = models.CharField(max_length = 520, blank = True)
+
+# Create the Club member model.
+class ClubMember(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    class Meta():
+        unique_together = ('user', 'club',)
+
+# Create the Club officer model.
+class ClubOfficer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    class Meta():
+        unique_together = ('user', 'club',)
+
+# Create the Club owner model.
+class ClubOwner(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    class Meta():
+        unique_together = ('user', 'club',)

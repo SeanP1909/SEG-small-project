@@ -73,6 +73,16 @@ class ClubModelTestCase(CreateClub, TestCase):
         self.club.description='x' * 521
         self._assert_club_is_invalid()
 
+# Test club ownership
+    def test_user_can_own_multiple_clubs(self):
+        second_club = self._create_other_club()
+        self.club.owner = second_club.owner
+        self._assert_club_is_valid()
+
+    def test_club_cannot_have_no_owner(self):
+        self.club.owner = None
+        self._assert_club_is_invalid()
+
 # Test case assertions
     def _assert_club_is_valid(self):
         try:

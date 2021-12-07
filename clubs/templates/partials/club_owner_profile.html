@@ -1,0 +1,27 @@
+<h3>Club owner</h3>
+<table class="table">
+  <tr>
+    <td>
+      <img src="{{ club.owner.mini_gravatar }}" alt="Gravatar of owner {{ club.owner.username }}" class="rounded-circle">
+    </td>
+    <td>
+      <p class="club-owner">
+        <span class="club-owner-fullname">
+          <b>{{ club.owner.username }}</b>
+        </span>
+      </p>
+      <p>
+        <span class="club-owner-user-details">
+          {{ club.owner.full_name }}
+        </span>
+      </p>
+    </td>
+    <td>
+      <p>
+        <span class="club-owner-bio">
+          {{ club.owner.bio }}
+        </span>
+      </p>
+    </td>
+  </tr>
+</table>

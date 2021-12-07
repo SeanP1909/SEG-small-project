@@ -51,6 +51,10 @@ def log_out(request):
     logout(request)
     return redirect('home')
 
+def clubs(request):
+    clubs = Club.objects.all()
+    return render(request, 'clubs.html', {'clubs': clubs})
+
 def profile(request):
     if request.method=='POST':
         form = UpdateForm(request.POST, instance=request.user)

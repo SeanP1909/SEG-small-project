@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends "base_content.html" %}
+{% block title %}
+| Clubs page
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <h1>Clubs list:</h1>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Location</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+
+    {% for club in clubs %}
+    
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ club.name }}</td>
+      <td>{{ club.location }}</td>
+      <td>{{ club.description }}</td>
+    </tr>
+
+    {% endfor %}
+
+      </tbody>
+    </table>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,23 +1,20 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from clubs.models import User, Club
-from clubs.tests.helpers import CreateClub
 
 # Create your tests here.
-class ClubModelTestCase(CreateClub, TestCase):
+class ClubModelTestCase(TestCase):
     """Unit tests of the club model."""
 
-    fixtures = ['clubs/tests/fixtures/default_user.json',]
+    fixtures = ['clubs/tests/fixtures/default_user.json',
+                'clubs/tests/fixtures/default_club.json',
+                'clubs/tests/fixtures/other_users.json',
+                'clubs/tests/fixtures/other_clubs.json',]
 
     def setUp(self):
         super(TestCase, self).setUp()
         self.user = User.objects.get(username='johndoe')
-        self.club = Club(
-            owner=self.user,
-            name="ChessHub",
-            location="London",
-            description="This is a chess club."
-        )
+        self.club = Club.objects.get(name="ChessHub")
 
 # Name tests.
     def test_name_is_not_blank(self):
@@ -25,7 +22,7 @@ class ClubModelTestCase(CreateClub, TestCase):
         self._assert_club_is_invalid()
 
     def test_name_must_be_unique(self):
-        second_club=self._create_other_club()
+        second_club=Club.objects.get(name="Chessy")
         self.club.name=second_club.name
         self._assert_club_is_invalid()
 
@@ -43,7 +40,7 @@ class ClubModelTestCase(CreateClub, TestCase):
         self._assert_club_is_invalid()
 
     def test_location_is_not_unique(self):
-        second_club = self._create_other_club()
+        second_club=Club.objects.get(name="Chessy")
         self.club.location = second_club.location
         self._assert_club_is_valid()
 
@@ -61,7 +58,7 @@ class ClubModelTestCase(CreateClub, TestCase):
         self._assert_club_is_valid()
 
     def test_description_does_not_need_to_be_unique(self):
-        second_club=self._create_other_club()
+        second_club=Club.objects.get(name="Chessy")
         self.club.description = second_club.description
         self._assert_club_is_valid()
 
@@ -75,7 +72,7 @@ class ClubModelTestCase(CreateClub, TestCase):
 
 # Test club ownership
     def test_user_can_own_multiple_clubs(self):
-        second_club = self._create_other_club()
+        second_club=Club.objects.get(name="Chessy")
         self.club.owner = second_club.owner
         self._assert_club_is_valid()
 

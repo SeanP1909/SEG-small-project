@@ -1,16 +1,18 @@
 from django.test import TestCase
 from django.urls import reverse
 from clubs.models import Club, User
-from clubs.tests.helpers import CreateClub, reverse_with_next
+from clubs.tests.helpers import reverse_with_next
 
-class ShowClubTest(CreateClub, TestCase):
+class ShowClubTest(TestCase):
 
     fixtures = ['clubs/tests/fixtures/default_user.json',
-                'clubs/tests/fixtures/other_users.json']
+                'clubs/tests/fixtures/default_club.json',
+                'clubs/tests/fixtures/other_users.json',
+                'clubs/tests/fixtures/other_clubs.json',]
 
     def setUp(self):
         self.user = User.objects.get(username='johndoe')
-        self.target_club = self._create_other_club()
+        self.target_club = Club.objects.get(name='Chessy')
         self.url = reverse('show_club', kwargs={'club_id': self.target_club.id})
 
     def test_show_club_url(self):
@@ -21,7 +23,7 @@ class ShowClubTest(CreateClub, TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'show_club.html')
-        self.assertContains(response, "Chesser")
+        self.assertContains(response, "Chessy")
 
     def test_get_show_club_with_invalid_id(self):
         self.client.login(username=self.user.username, password='Password123')

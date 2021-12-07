@@ -3,6 +3,7 @@
       "model": "clubs.club",
       "pk": 1,
       "fields": {
+        "owner": 1,
         "name": "ChessHub",
         "location": "London",
         "description": "This is my chess club."

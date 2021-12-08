@@ -1,8 +1,8 @@
-from django.core.validators import RegexValidator, MaxValueValidator
+from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from libgravatar import Gravatar
-from .helpers import experienceChoices
+from .helpers import experienceChoices, match_result_choices
 
 # Create your models here.
 
@@ -67,3 +67,33 @@ class ClubOfficer(models.Model):
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
     class Meta():
         unique_together = ('user', 'club',)
+
+class Tournament(models.Model):
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    organizer = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    name = models.CharField(max_length = 50)
+    description = models.CharField(max_length = 520, blank = True)
+    capacity = models.IntegerField(validators = [MinValueValidator(2), MaxValueValidator(96)], blank = False)
+    deadline = models.DateField(blank = False)
+    start = models.DateField(blank = False)
+
+class TournamentOfficer(models.Model):
+    officer = models.ForeignKey(User, on_delete=models.CASCADE)
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    class Meta():
+        unique_together = ('officer', 'tournament',)
+
+class TournamentParticipant(models.Model):
+    participant = models.ForeignKey(User, on_delete=models.CASCADE)
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    class Meta():
+        unique_together = ('participant', 'tournament',)
+
+class Match(models.Model):
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    participant_first = models.ForeignKey(User, on_delete=models.CASCADE, related_name='participant_first_match')
+    participant_second = models.ForeignKey(User, on_delete=models.CASCADE, related_name='participant_second_match')
+    start = models.DateField(blank = False)
+    #TODO: Make result as emun with values (first/second/draw)
+    result = models.CharField(max_length = 10, choices=match_result_choices(), blank = False)

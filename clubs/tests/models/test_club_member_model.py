@@ -25,7 +25,7 @@ class ClubMemberModelTestCase(TestCase):
     def test_club_member_must_be_unique(self):
         second_club_member = ClubMember.objects.get(
             user = 3,
-            club = 3   
+            club = 3
         )
         self.clubmember.user = second_club_member.user
         self.clubmember.club = second_club_member.club

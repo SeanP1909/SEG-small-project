@@ -8,8 +8,10 @@ from django.http import HttpResponseForbidden
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import SignUpForm, LogInForm, UpdateForm
-from .models import Club
+from .forms import SignUpForm, LogInForm, UpdateForm, ClubCreationForm
+from django.contrib.auth.forms import UserChangeForm
+from .models import User, Club
+from django.contrib.auth.decorators import login_required
 
 # Create the main page view
 def home(request):
@@ -64,9 +66,9 @@ def profile(request):
     return render(request, 'profile.html', {'form': form})
 
 def profile_clubs(request):
-    return render(request, 'profile_clubs.html')    
+    return render(request, 'profile_clubs.html')
 
-"""Club page view"""
+# Club page view
 def show_club(request, club_id):
     try:
         club = Club.objects.get(id=club_id)
@@ -76,3 +78,19 @@ def show_club(request, club_id):
         return render(request, 'show_club.html',
             {'club': club,}
         )
+
+# View for the club creator
+@login_required
+def club_creator(request):
+    if request.method=='POST':
+        form = ClubCreationForm(request.POST)
+        current_user = request.user
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            location = form.cleaned_data.get('location')
+            description = form.cleaned_data.get('description')
+            club = Club.objects.create(owner=current_user, name=name, location=location, description=description)
+            return redirect('show_club', club.id)
+    else:
+        form = ClubCreationForm()
+    return render(request, 'club_creator.html', {'form': form})

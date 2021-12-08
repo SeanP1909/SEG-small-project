@@ -1,4 +1,5 @@
 from django.urls import reverse
+from clubs.models import Club
 
 def reverse_with_next(url_name, next_url):
     url = reverse(url_name)

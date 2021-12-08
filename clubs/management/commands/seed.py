@@ -36,6 +36,7 @@ class Command(BaseCommand):
             fakeDescription = self.faker.text(max_nb_chars = 520)
 
             Club.objects.create(
+                owner = User.objects.get(id=1),
                 name = fakeName,
                 location = fakeLocation,
                 description = fakeDescription,

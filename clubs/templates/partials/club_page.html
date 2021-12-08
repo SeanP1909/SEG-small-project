@@ -8,17 +8,19 @@
 </div>
 <div class="row content">
   <div class="col-12">
-      <p class="club-description">{{ club.description }}</p>
-        <!-- INCLUDE MEMBER COUNT -->
-          <!-- INCLUDE APPLICATION FUNCTIONALITY AND LEAVE/JOIN BUTTONS -->
-          <!-- INCLUDE CLUB OWNER DETAILS -->
-          <!-- INCLUDE TOURNAMENT DETAILS -->
-        {% if user.is_authenticated %}
-        <button class="btn btn-primary">Join</button>
-        {% else %}
-        <form action="{% url 'log_in' %}">
-          <input type="submit" class="btn btn-secondary" value="Log in to join"/>
-        </form>
-        {% endif %}
+    <p class="club-description">{{ club.description }}</p>
+    {% if club.owner.id != user.id %}
+    {% if user.is_authenticated %}
+    <button class="btn btn-primary">Join</button>
+    {% else %}
+    <form action="{% url 'log_in' %}">
+      <input type="submit" class="btn btn-secondary" value="Log in to join"/>
+    </form>
+    {% endif %}
+    {% else %}
+    <form action="#">
+      <input type="submit" class="btn btn-secondary" value="Leave"/>
+    </form>
+    {% endif %}
   </div>
 </div>

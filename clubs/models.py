@@ -40,6 +40,7 @@ class User(AbstractUser):
 
 # Create the Club model.
 class Club(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(
         max_length = 50,
         unique = True,
@@ -62,13 +63,6 @@ class ClubMember(models.Model):
 
 # Create the Club officer model.
 class ClubOfficer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    club = models.ForeignKey(Club, on_delete=models.CASCADE)
-    class Meta():
-        unique_together = ('user', 'club',)
-
-# Create the Club owner model.
-class ClubOwner(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
     class Meta():

@@ -3,6 +3,7 @@
       "model": "clubs.club",
       "pk": 2,
       "fields": {
+        "owner": 2,
         "name": "Chessy",
         "location": "Plovdiv",
         "description": "Hello, this is my club!"
@@ -13,6 +14,7 @@
       "model": "clubs.club",
       "pk": 3,
       "fields": {
+        "owner": 3,
         "name": "Hubby",
         "location": "Winchester",
         "description": ""
@@ -23,6 +25,7 @@
         "model": "clubs.club",
         "pk": 4,
         "fields": {
+          "owner": 4,
           "name": "Avalon",
           "location": "Rome",
           "description": "BTW, I am looking at my chess club."

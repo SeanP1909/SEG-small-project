@@ -4,6 +4,7 @@ from clubs.models import Club
 class ClubListTest(TestCase):
 
     fixtures = [
+        'clubs/tests/fixtures/default_user.json',
         'clubs/tests/fixtures/default_club.json'
     ]
 

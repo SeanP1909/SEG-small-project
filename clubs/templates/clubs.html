@@ -20,10 +20,10 @@
       <tbody>
 
     {% for club in clubs %}
-    
+
     <tr>
       <th scope="row">{{ forloop.counter }}</th>
-      <td>{{ club.name }}</td>
+      <td><a href="{% url 'show_club' club.id %}">{{ club.name }}</a></td>
       <td>{{ club.location }}</td>
       <td>{{ club.description }}</td>
     </tr>

@@ -4,12 +4,13 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.hashers import check_password
 from django.http import HttpResponseForbidden
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import SignUpForm, LogInForm, UpdateForm, ClubCreationForm
-from django.contrib.auth.forms import UserChangeForm
+from .forms import SignUpForm, LogInForm, UpdateForm, PasswordForm, ClubCreationForm
 from .models import User, Club
 from django.contrib.auth.decorators import login_required
 
@@ -55,6 +56,7 @@ def clubs(request):
     clubs = Club.objects.all()
     return render(request, 'clubs.html', {'clubs': clubs})
 
+@login_required
 def profile(request):
     if request.method=='POST':
         form = UpdateForm(request.POST, instance=request.user)
@@ -67,6 +69,29 @@ def profile(request):
 
 def profile_clubs(request):
     return render(request, 'profile_clubs.html')
+
+# Edit password view
+@login_required
+def password(request):
+    user = request.user
+    if request.method == 'POST':
+        form = PasswordForm(data = request.POST)
+        if form.is_valid():
+            password = form.cleaned_data.get('password')
+            if check_password(password, user.password):
+                new_password = form.cleaned_data.get('new_password')
+                user.set_password(new_password)
+                user.save()
+                login(request, user)
+                messages.add_message(request, messages.SUCCESS, "Password has been updated!")
+                return redirect('home')
+        else:
+            messages.add_message(request, messages.ERROR, "Wrong input! Make sure you get the right password!"
+                                                            " A password must contain an uppercase character, a lowercase character, a number"
+                                                            " and should match the confirmation.")
+    form = PasswordForm()
+    return render(request, 'password.html', {'form': form})
+
 
 # Club page view
 def show_club(request, club_id):

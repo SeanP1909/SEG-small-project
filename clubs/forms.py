@@ -19,7 +19,7 @@ class SignUpForm(forms.ModelForm):
                 )
         ]
     )
-    password_confirmation = forms.CharField(label="Confirm Password", widget=forms.PasswordInput())
+    password_confirmation = forms.CharField(label="Confirm password", widget=forms.PasswordInput())
 
     def clean(self):
         super().clean()
@@ -50,6 +50,27 @@ class UpdateForm(forms.ModelForm):
         model = User
         fields = ["first_name", "last_name", "username", "email", "experience", "bio"]
         widgets = { "bio": forms.Textarea() }
+
+class PasswordForm(forms.Form):
+    """Form for changing the password."""
+
+    password = forms.CharField(label = 'Current password', widget = forms.PasswordInput())
+    new_password = forms.CharField(
+        label = 'New password',
+        widget = forms.PasswordInput(),
+        validators = [RegexValidator(
+            regex = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$',
+        )]
+    )
+    password_confirmation = forms.CharField(label = 'Confirm password', widget = forms.PasswordInput())
+
+    def clean(self):
+        super().clean()
+        new_password = self.cleaned_data.get('new_password')
+        password_confirmation = self.cleaned_data.get('password_confirmation')
+        if password_confirmation != new_password:
+            self.add_error('password_confirmation', "Passwords don't match!")
+
 
 class ClubCreationForm(forms.ModelForm):
     class Meta:

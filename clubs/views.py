@@ -85,6 +85,10 @@ def password(request):
                 login(request, user)
                 messages.add_message(request, messages.SUCCESS, "Password has been updated!")
                 return redirect('home')
+        else:
+            messages.add_message(request, messages.ERROR, "Wrong input! Make sure you get the right password!"
+                                                            " A password must contain an uppercase character, a lowercase character, a number"
+                                                            " and should match the confirmation.")
     form = PasswordForm()
     return render(request, 'password.html', {'form': form})
 

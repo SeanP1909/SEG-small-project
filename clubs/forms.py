@@ -19,7 +19,7 @@ class SignUpForm(forms.ModelForm):
                 )
         ]
     )
-    password_confirmation = forms.CharField(label="Confirm Password", widget=forms.PasswordInput())
+    password_confirmation = forms.CharField(label="Confirm password", widget=forms.PasswordInput())
 
     def clean(self):
         super().clean()
@@ -60,7 +60,6 @@ class PasswordForm(forms.Form):
         widget = forms.PasswordInput(),
         validators = [RegexValidator(
             regex = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$',
-            message = 'Password must contain an uppercase character, a lowercase character and a number.'
         )]
     )
     password_confirmation = forms.CharField(label = 'Confirm password', widget = forms.PasswordInput())

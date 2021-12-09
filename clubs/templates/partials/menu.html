@@ -1,16 +1,19 @@
 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'clubs' %}">Clubs</a>
+  </li>
+</ul>
+<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
   <li class="nav-item dropdown">
     <a class="nav-link" href="#" id="club-list-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
       Your clubs
     </a>
-      <ul class="dropdown-menu" aria-labelledby="club-list-dropdown">
-        <li><p class="dropdown-header">You're not a member of any clubs!<p></li>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="club-list-dropdown">
+      <li><p class="dropdown-header">You're not a member of any clubs!<p></li>
         <div class="dropdown-divider"></div>
         <li><a class="dropdown-item" href="{% url 'club_creator' %}">Create a club</a></li>
       </ul>
     </li>
-  </ul>
-  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
     <li class="nav-item dropdown">
       <a class="nav-link" href="#" id="user-account-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <span class="bi-person-circle"></span>

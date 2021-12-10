@@ -46,7 +46,7 @@ class Club(models.Model):
         unique = True,
         validators=[
             RegexValidator(
-                regex = r'^\w{3,}$',
+                regex = r'^.{3,}$',
                 message = 'The name of the club must contain at least three character of any kind!'
                 )
         ]

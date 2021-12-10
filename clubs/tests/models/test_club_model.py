@@ -26,6 +26,14 @@ class ClubModelTestCase(TestCase):
         self.club.name=second_club.name
         self._assert_club_is_invalid()
 
+    def test_name_contains_whitespace(self):
+        self.club.name = "Chess Hub"
+        self._assert_club_is_valid()
+
+    def test_name_contains_number(self):
+        self.club.name = "Chess4Hub"
+        self._assert_club_is_valid()
+
     def test_name_can_have_less_than_50_characters(self):
         self.club.name='x' * 50
         self._assert_club_is_valid()

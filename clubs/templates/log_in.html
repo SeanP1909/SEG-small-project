@@ -11,6 +11,7 @@
         <input type="submit" value="Log in" class="btn btn-primary">
       </form>
       <form action="{% url 'sign_up' %}">
+        {% csrf_token %}
         <hr>
         <input type="submit" class="btn btn-secondary" value="Don't have an account? Sign up"/>
       </form>

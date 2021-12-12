@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "base_content.html" %}
+{% block title %}
+| Tournament page
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <h1>Tournaments list:</h1>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+
+    {% for tournament in tournaments %}
+
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ tournament.name }}</td>
+      <td>{{ tournament.description }}</td>
+    </tr>
+
+    {% endfor %}
+
+      </tbody>
+    </table>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

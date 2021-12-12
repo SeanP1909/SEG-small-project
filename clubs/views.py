@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import SignUpForm, LogInForm, UpdateForm, PasswordForm, ClubCreationForm
-from .models import User, Club
+from .models import User, Club, Tournament
 from django.contrib.auth.decorators import login_required
 
 # Create the main page view
@@ -119,3 +119,8 @@ def club_creator(request):
     else:
         form = ClubCreationForm()
     return render(request, 'club_creator.html', {'form': form})
+
+@login_required
+def tournaments(request):
+    tournaments = Tournament.objects.all()
+    return render(request, 'tournaments.html', {'tournaments': tournaments})

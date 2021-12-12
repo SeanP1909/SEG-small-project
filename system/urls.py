@@ -29,4 +29,5 @@ urlpatterns = [
     path('profile/clubs/', views.profile_clubs, name='profile_clubs'),
     path('club/<int:club_id>', views.show_club, name='show_club'),
     path('club_creator/', views.club_creator, name = 'club_creator'),
+    path('tournaments/', views.tournaments, name = 'tournaments'),
 ]

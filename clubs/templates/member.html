@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% extends "base_content.html" %}
+{% block title %}
+| Member list
+{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+<section class="profile-wrapper">
+
+    <div class="container">
+
+        <div class="row row-wrapper justify-content-center" >
+
+            <div class="col-lg-4 col-md-12 col-sm-12 left">
+              {% for user in users %}
+
+                <div class="user-card">
+
+                    <div class="profile-avatar">
+                        <div class="image-wrapper">
+                            <img src="{{ user.gravatar }}" alt="profile avatar">
+                        </div>
+                    </div>
+
+                    <div class="user-info">
+                      <p> {{user.first_name}} {{user.last_name}} </p>
+                      <p> {{user.bio}} </p>
+                    </div>
+
+                </div>
+              {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% else %}
+<p style="padding-left: 10px">Please login to view this page.</p>
+{% endif %}
+{% endblock %}

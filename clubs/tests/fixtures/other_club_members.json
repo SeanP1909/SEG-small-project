@@ -13,7 +13,7 @@
       "pk": 3,
       "fields": {
         "user": 3,
-        "club": 3 
+        "club": 3
       }
     },
 
@@ -22,7 +22,15 @@
         "pk": 4,
         "fields": {
           "user": 4,
-          "club": 4 
+          "club": 4
+        }
+      },
+      {
+        "model": "clubs.clubmember",
+        "pk": 5,
+        "fields": {
+          "user": 3,
+          "club": 2
         }
       }
 ]

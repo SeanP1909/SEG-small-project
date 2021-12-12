@@ -58,6 +58,7 @@ class Club(models.Model):
 class ClubMember(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    role = models.CharField(max_length = 3, choices = [('MEM','Member'),('OFF','Officer'),('OWN','Owner')], default = 'MEM')
     class Meta():
         unique_together = ('user', 'club',)
 

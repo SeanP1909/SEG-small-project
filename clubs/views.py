@@ -11,7 +11,8 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import SignUpForm, LogInForm, UpdateForm, PasswordForm, ClubCreationForm
-from .models import User, Club, Tournament
+from .models import User, Club, Tournament, ClubMember, ClubOfficer
+
 from django.contrib.auth.decorators import login_required
 
 # Create the main page view
@@ -97,11 +98,14 @@ def password(request):
 def show_club(request, club_id):
     try:
         club = Club.objects.get(id=club_id)
+        instance = request.user
+        exists_in_club = ClubMember.objects.filter(user=instance.id, club=club.id).prefetch_related('user').prefetch_related('club')
+
     except ObjectDoesNotExist:
         return redirect('home')
     else:
         return render(request, 'show_club.html',
-            {'club': club,}
+            {'club': club, 'exists_in_club': exists_in_club}
         )
 
 # View for the club creator
@@ -115,10 +119,57 @@ def club_creator(request):
             location = form.cleaned_data.get('location')
             description = form.cleaned_data.get('description')
             club = Club.objects.create(owner=current_user, name=name, location=location, description=description)
+            clubmember = ClubMember.objects.create(user=current_user, club=club,role="OWN")
             return redirect('show_club', club.id)
     else:
         form = ClubCreationForm()
     return render(request, 'club_creator.html', {'form': form})
+
+def club_member_list(request, club_id):
+    try:
+        rU = request.user
+        qryClub = Club.objects.get(id=club_id)
+        allMembers = ClubMember.objects.filter(club=qryClub.id).prefetch_related('user').prefetch_related('club')
+        rU_existsInCLub = ClubMember.objects.filter(user=rU.id,club=qryClub.id).exists()
+
+    except ObjectDoesNotExist:
+            return redirect('home')
+    else:
+        return render(request, 'club_member_list.html', {'members':allMembers, 'club':qryClub, 'exists_in_club':rU_existsInCLub})
+
+def club_member_list_action(request, club_id, userid, action):
+    rU = request.user
+    qryUser = User.objects.get(id=userid)
+    qryClub = Club.objects.get(id=club_id)
+
+    instance_qryUser = qryUser
+    instance_qryClub = qryClub
+
+    rU_existsInCLub = ClubMember.objects.filter(user=rU.id,club=instance_qryClub.id)
+    rU_isClubOwner = True if instance_qryClub.owner.id == rU.id else False
+    qryUser_clubMemberInstance = ClubMember.objects.filter(user=instance_qryUser.id,club=instance_qryClub.id)
+
+    if(rU_existsInCLub and rU_isClubOwner):
+
+        if(action == 'promote'):
+            if(qryUser_clubMemberInstance.exists() and qryUser_clubMemberInstance.first().role == 'MEM'):
+                promoteOfficer = qryUser_clubMemberInstance.update(role='OFF')
+
+        if(action == 'demote'):
+            if(qryUser_clubMemberInstance.exists() and qryUser_clubMemberInstance.first().role == 'OFF'):
+                demoteOfficer = qryUser_clubMemberInstance.update(role='MEM')
+
+    allMembers = ClubMember.objects.filter(club=qryClub.id).prefetch_related('user').prefetch_related('club')
+    rU_existsInCLub = ClubMember.objects.filter(user=rU.id,club=qryClub.id).exists()
+    return render(request, 'club_member_list.html', {'members':allMembers, 'club':qryClub, 'exists_in_club':rU_existsInCLub})
+
+def member_id(request, userid):
+    User = get_user_model()
+    users = User.objects.filter(id=userid)
+    if users:
+        return render(request, 'member.html', {'users': users})
+    else:
+        return redirect('home')
 
 @login_required
 def tournaments(request):

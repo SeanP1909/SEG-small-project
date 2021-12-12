@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+{% extends "base_content.html" %}
+{% block title %}
+| Member list
+{% endblock %}
+{% block content %}
+
+<section class="title-panel">
+    <div class="container">
+        <h1 class="title">{{club.name}} </h1>
+        <h2> Member list:</h2>
+    </div>
+</section>
+
+<section class="item-list-wrapper club-member-list">
+
+    <div class="container">
+
+        {% if user.is_authenticated and exists_in_club %}
+
+        <ul class="vertical-list">
+            {% for club_member in members %}
+            <li>
+
+              <div class="item d-flex align-items-center flex-wrap flex-sm-nowrap">
+
+                <a href="/member/{{club_member.user.id}}" class="item-col d-flex align-items-center w-100">
+
+                      <div class="item-avatar">
+                          <div class="image-wrapper">
+                              <img src="{{club_member.user.gravatar}}" alt="profile avatar">
+                          </div>
+                      </div>
+
+                      <div class="item-details flex-wrap">
+                          <div class="column-spacer right">
+                              <div class="name py-2 px-3">{{club_member.user.first_name}} {{club_member.user.last_name}}</div>
+                          </div>
+
+                          <div class="column-spacer right d-flex align-items-center">
+                              <div class="rating-wrapper me-3">
+                                  Rating: <div class="badge bg-warning">N/A</div>
+                              </div>
+                              <i class="ico bi bi-info-circle"></i>
+                          </div>
+                      </div>
+                </a>
+
+                  {% if club.owner.id == user.id %}
+                    {% if club_member.user.id != club.owner.id %}
+                      <div class="item-col d-flex align-items-center justify-content-end justify-content-sm-center p-3 p-sm-0 ps-sm-5 flex-grow-1">
+                      {% if club_member.role == 'OFF' %}
+                      {# <a href="/member/{{club_member.user.id}}/demote/{{club.id}}" class="btn btn-danger">Demote officer</a> #}
+                      <a href="/club/{{ club.id }}/memberlist/{{ club_member.user.id }}/demote" class="btn btn-danger">Demote</a>
+                      {% else %}
+                      {# <a href="/member/{{club_member.user.id}}/promote/{{club.id}}" class="btn btn-info">Promote officer</a> #}
+                      <a href="/club/{{ club.id }}/memberlist/{{ club_member.user.id }}/promote" class="btn btn-info">Promote</a>
+                      {% endif %}
+                      </div>
+                    {% endif %}
+                  {% endif %}
+
+              </div>
+            </li>
+            {% endfor %}
+
+        </ul>
+        {% else %}
+        <p>Sorry, you must be logged in and a member of this club to view the list.</p>
+        {% endif %}
+    </div>
+
+</section>
+
+
+{% endblock %}

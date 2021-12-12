@@ -1,5 +1,97 @@
+
+.title-panel {
+  padding: 3rem 0;
+}
+
+.item-list-wrapper ul {
+  border-top: 5px solid #444444;
+  background: #fbfbfb;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.item-list-wrapper ul li {
+  border-bottom: 1px solid #444444;
+}
+
+.item-list-wrapper ul li .item > a {
+  text-decoration: none;
+  color: #444444;
+}
+
+.item-list-wrapper ul li .item {
+  padding: 1rem 0.625rem;
+  text-decoration: none;
+  color: #444444;
+}
+.item-list-wrapper ul li .item .item-avatar {
+  transition: width 0.3s ease, height 0.3s ease;
+  width: 50px;
+  height: 100%;
+}
+.item-list-wrapper ul li .item .item-avatar .image-wrapper {
+  padding-top: 100%;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.item-list-wrapper ul li .item .item-avatar .image-wrapper img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.item-list-wrapper ul li .item .item-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.item-list-wrapper ul li .item .item-details .name,
+.item-list-wrapper ul li .item .item-details .ico {
+  font-size: 18px;
+  line-height: 1;
+}
+
+@media screen and (min-width: 992px) {
+  .item-list-wrapper ul li .item:hover .item-avatar {
+    width: 70px;
+  }
+}
+
 .profile-wrapper {
   margin-top: 10rem;
+}
+
+.memberlist-wrapper li {
+  border-bottom: 1px solid rgba(68, 68, 68, 0.95);
+}
+
+.memberlist-wrapper li:hover {
+  background: rgba(68, 68, 68, 0.55);
+}
+
+.memberlist-wrapper li a {
+  display: block;
+  width: 100%;
+  padding: 6px;
+  color: #0060B6;
+  text-decoration: none;
+}
+
+.memberlist-wrapper ul{
+  background:#fbfbfb;
+  border-top: 6px solid #444444;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.memberlist-wrapper h1 {
+  padding-bottom: 10px;
 }
 
 .user-card {
@@ -7,9 +99,13 @@
   box-shadow: 0px 16px 20px rgba(0, 0, 0, 0.08);
   border-top: 6px solid #c6c6c6;
 }
+
 .user-card .user-info {
-  padding: 1.875rem;
+  text-align: center;
+  padding: 30px;
+  word-wrap: break-word;
 }
+
 .user-card .extended-card-nav {
   margin-top: 2.5rem;
 }

@@ -32,4 +32,5 @@ urlpatterns = [
     path('club/<int:club_id>/memberlist', views.club_member_list, name = 'club_member_list'),
     path('club/<int:club_id>/memberlist/<userid>/<str:action>/', views.club_member_list_action, name = 'club_member_list_action'),
     path('member/<userid>', views.member_id, name = 'member<userid>'),
+    path('tournaments/', views.tournaments, name = 'tournaments'),
 ]

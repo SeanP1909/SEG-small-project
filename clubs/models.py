@@ -78,6 +78,9 @@ class Tournament(models.Model):
     capacity = models.IntegerField(validators = [MinValueValidator(2), MaxValueValidator(96)], blank = False)
     deadline = models.DateField(blank = False)
     start = models.DateField(blank = False)
+    
+    def __str__(self):
+        return f"{self.name}, Start Date: {self.start}"
 
 class TournamentOfficer(models.Model):
     officer = models.ForeignKey(User, on_delete=models.CASCADE)

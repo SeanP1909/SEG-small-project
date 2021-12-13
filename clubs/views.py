@@ -17,7 +17,8 @@ from django.contrib.auth.decorators import login_required
 
 # Create the main page view
 def home(request):
-    return render(request, 'home.html')
+    clubs = Club.objects.all()
+    return render(request, 'home.html', {"clubs":clubs})
 
 
 def sign_up(request):

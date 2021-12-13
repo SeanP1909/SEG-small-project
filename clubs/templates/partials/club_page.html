@@ -30,5 +30,8 @@
     {% if user.is_authenticated and exists_in_club %}
     <a href="/club/{{club.id}}/memberlist" class="btn btn-primary my-3">View member list</a>
     {% endif %}
+
+    <a href="/tournament/organize?club_id={{club.id}}" class="btn btn-primary my-3">Create tournament</a>
+
   </div>
 </div>

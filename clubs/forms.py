@@ -1,6 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
-from .models import User, Club
+from .models import User, Club, Tournament
 from django.contrib.auth.forms import UserChangeForm
 
 class SignUpForm(forms.ModelForm):
@@ -77,3 +77,9 @@ class ClubCreationForm(forms.ModelForm):
         model = Club
         fields = ["name", "location", "description"]
         widgets = { "description": forms.Textarea() }
+
+class TournamentForm(forms.ModelForm):
+    class Meta:
+        model = Tournament
+        fields = ["name", "description", "capacity", "deadline", "start"]
+        widgets = {"description": forms.Textarea()}

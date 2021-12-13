@@ -9,5 +9,37 @@
       {% include 'partials/club_owner_profile.html' %}
     </div>
   </div>
+  <div class="row content">
+    <h1>Tournaments list:</h1>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Capacity</th>
+            <th scope="col">Deadline</th>
+            <th scope="col">Start</th>
+          </tr>
+        </thead>
+        <tbody>
+
+      {% for tournament in tournaments %}
+
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ tournament.name }}</td>
+        <td>{{ tournament.description }}</td>
+        <td>{{ tournament.capacity }}</td>
+        <td>{{ tournament.deadline }}</td>
+        <td>{{ tournament.start }}</td>
+      </tr>
+
+      {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
 </div>
 {% endblock %}

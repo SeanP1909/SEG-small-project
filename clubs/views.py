@@ -10,14 +10,15 @@ from django.http import HttpResponseForbidden
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import SignUpForm, LogInForm, UpdateForm, PasswordForm, ClubCreationForm
+from .forms import SignUpForm, LogInForm, UpdateForm, PasswordForm, ClubCreationForm, TournamentForm
 from .models import User, Club, Tournament, ClubMember, ClubOfficer
 
 from django.contrib.auth.decorators import login_required
 
 # Create the main page view
 def home(request):
-    return render(request, 'home.html')
+    clubs = Club.objects.all()
+    return render(request, 'home.html', {"clubs":clubs})
 
 
 def sign_up(request):
@@ -100,12 +101,14 @@ def show_club(request, club_id):
         club = Club.objects.get(id=club_id)
         instance = request.user
         exists_in_club = ClubMember.objects.filter(user=instance.id, club=club.id).prefetch_related('user').prefetch_related('club')
+        tournaments = Tournament.objects.filter(club=club.id, finished=False)
+        print(tournaments)
 
     except ObjectDoesNotExist:
         return redirect('home')
     else:
         return render(request, 'show_club.html',
-            {'club': club, 'exists_in_club': exists_in_club}
+            {'club': club, 'exists_in_club': exists_in_club, 'tournaments': tournaments}
         )
 
 # View for the club creator
@@ -175,3 +178,32 @@ def member_id(request, userid):
 def tournaments(request):
     tournaments = Tournament.objects.all()
     return render(request, 'tournaments.html', {'tournaments': tournaments})
+
+@login_required
+def tournament_organize(request):
+    if request.method == 'POST':
+        club_id = request.session['club_id']
+        club = Club.objects.get(id=club_id)
+        organizer = request.user
+        form = TournamentForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            description = form.cleaned_data.get('description')
+            deadline = form.cleaned_data.get('deadline')
+            capacity = form.cleaned_data.get('capacity')
+            start = form.cleaned_data.get('start')
+            tournament = Tournament.objects.create(
+                club = club,
+                organizer = organizer,
+                name = name,
+                description = description,
+                capacity = capacity,
+                deadline = deadline,
+                start = start,
+                finished = False
+            )
+            return redirect('show_club', club_id)
+    else:
+        form = TournamentForm()
+        request.session['club_id'] = request.GET.get('club_id')
+    return render(request, 'tournament_edit.html', {'form': form})

@@ -10,27 +10,34 @@
   <div class="col-12">
     <p class="club-description">{{ club.description }}</p>
 
+    <!-- % if club.owner.id != user.id % -->
 
-      {% if user.is_authenticated %}
-      {% if exists_in_club %}
-      <form action="#">
-        <input type="submit" class="btn btn-secondary" value="Leave"/>
-      </form>
-      {% else %}
-      <button class="btn btn-primary">Join</button>
-      {% endif %}
 
-      {% else %}
-      <form action="{% url 'log_in' %}">
-        <input type="submit" class="btn btn-secondary" value="Log in to join"/>
-      </form>
-      {% endif %}
-      
-    {% if user.is_authenticated and exists_in_club %}
+    {% if user.is_authenticated %}
+    {% if exists_in_club %}
+    <form action="#">
+      <input type="submit" class="btn btn-secondary" value="Leave"/>
+    </form>
     <a href="/club/{{club.id}}/memberlist" class="btn btn-primary my-3">View member list</a>
+    {% else %}
+    {% if club.owner.id != user.id %}
+    <button class="btn btn-primary">Join</button>
+    {% endif %}
     {% endif %}
 
+    {% if club.owner.id == user.id %}
+    <form action="#">
+      <input type="submit" class="btn btn-secondary" value="Pass ownership"/>
+    </form>
+    <a href="/club/{{club.id}}/memberlist" class="btn btn-primary my-3">View member list</a>
     <a href="/tournament/organize?club_id={{club.id}}" class="btn btn-primary my-3">Create tournament</a>
+    {% endif %}
+
+    {% else %}
+    <form action="{% url 'log_in' %}">
+      <input type="submit" class="btn btn-secondary" value="Log in to join"/>
+    </form>
+    {% endif %}
 
   </div>
 </div>

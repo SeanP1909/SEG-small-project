@@ -10,11 +10,8 @@
   <div class="col-12">
     <p class="club-description">{{ club.description }}</p>
 
-    <!-- % if club.owner.id != user.id % -->
-
-
     {% if user.is_authenticated %}
-    {% if exists_in_club %}
+    {% if exists_in_club and club.owner.id != user.id %}
     <form action="#">
       <input type="submit" class="btn btn-secondary" value="Leave"/>
     </form>

@@ -18,8 +18,10 @@ from django.contrib.auth.decorators import login_required
 # Create the main page view
 def home(request):
     clubs = Club.objects.all()
+    user = request.user
+    if user.is_authenticated:
+        club_switcher(request)
     return render(request, 'home.html', {"clubs":clubs})
-
 
 def sign_up(request):
     if request.method=='POST':
@@ -207,3 +209,12 @@ def tournament_organize(request):
         form = TournamentForm()
         request.session['club_id'] = request.GET.get('club_id')
     return render(request, 'tournament_edit.html', {'form': form})
+
+def club_switcher(request):
+    current_user = request.user
+    club_list = []
+
+    for club in ClubMember.objects.filter(user = current_user).select_related('club'):
+        club_list.append(club)
+
+    return render(request, 'partials/menu.html', {'club_list': club_list})

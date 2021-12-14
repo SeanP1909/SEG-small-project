@@ -10,23 +10,22 @@
   <div class="col-12">
     <p class="club-description">{{ club.description }}</p>
 
-    {% if club.owner.id != user.id %}
-
 
       {% if user.is_authenticated %}
+      {% if exists_in_club %}
+      <form action="#">
+        <input type="submit" class="btn btn-secondary" value="Leave"/>
+      </form>
+      {% else %}
       <button class="btn btn-primary">Join</button>
+      {% endif %}
+
       {% else %}
       <form action="{% url 'log_in' %}">
         <input type="submit" class="btn btn-secondary" value="Log in to join"/>
       </form>
       {% endif %}
-
-    {% else %}
-    <form action="#">
-      <input type="submit" class="btn btn-secondary" value="Leave"/>
-    </form>
-    {% endif %}
-
+      
     {% if user.is_authenticated and exists_in_club %}
     <a href="/club/{{club.id}}/memberlist" class="btn btn-primary my-3">View member list</a>
     {% endif %}

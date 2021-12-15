@@ -21,6 +21,7 @@
             <th scope="col">Capacity</th>
             <th scope="col">Deadline</th>
             <th scope="col">Start</th>
+            <th scope="col">Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -34,6 +35,7 @@
         <td>{{ tournament.capacity }}</td>
         <td>{{ tournament.deadline }}</td>
         <td>{{ tournament.start }}</td>
+        <td><a href="/club/{{club.id}}/tournament/edit/{{tournament.id}}" class="btn btn-secondary" class="bi-pencil"><span class="bi-pencil"></span></a></td>
       </tr>
 
       {% endfor %}

@@ -206,7 +206,7 @@ def tournament_organize(request):
     else:
         form = TournamentForm()
         request.session['club_id'] = request.GET.get('club_id')
-    return render(request, 'tournament_edit.html', {'form': form})
+    return render(request, 'tournament_new.html', {'form': form})
 
 def club_switcher(request):
     current_user = request.user
@@ -216,3 +216,26 @@ def club_switcher(request):
         club_list.append(club)
 
     return render(request, 'partials/menu.html', {'club_list': club_list})
+
+@login_required
+def tournament_edit(request, club_id, tournament_id):
+    club = Club.objects.get(pk = club_id)
+    tournament = Tournament.objects.get(pk = tournament_id, club = club)
+
+    form = TournamentForm(instance = tournament)
+
+    return render(request, 'tournament_edit.html', {'form': form})
+
+@login_required
+def tournament_editor(request):
+    if(request.method == 'POST'):
+        form = TournamentForm(request.POST)
+        if form.is_valid():
+            tournament = Tournament.objects.get(id=form.cleaned_data.get('id'))
+            tournament.name = form.cleaned_data.get('name')
+            tournament.description = form.cleaned_data.get('description')
+            tournament.deadline = form.cleaned_data.get('deadline')
+            tournament.capacity = form.cleaned_data.get('capacity')
+            tournament.start = form.cleaned_data.get('start')
+            tournament.save()
+            return redirect('show_club', tournament.club.id)

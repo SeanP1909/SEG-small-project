@@ -79,7 +79,8 @@ class ClubCreationForm(forms.ModelForm):
         widgets = { "description": forms.Textarea() }
 
 class TournamentForm(forms.ModelForm):
+    id = forms.CharField(widget=forms.HiddenInput())
     class Meta:
         model = Tournament
-        fields = ["name", "description", "capacity", "deadline", "start"]
+        fields = ["id", "name", "description", "capacity", "deadline", "start"]
         widgets = {"description": forms.Textarea()}

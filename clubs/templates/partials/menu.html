@@ -1,11 +1,13 @@
 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
   <li class="nav-item dropdown">
-    <a class="nav-link" href="#" id="club-list-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+    <a class="nav-link" id="club-list-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
       Your clubs
     </a>
       <ul class="dropdown-menu" aria-labelledby="club-list-dropdown">
-        <li><p class="dropdown-header">You're not a member of any clubs!<p></li>
+        {% for club in club_list %}
+        <li><a class="dropdown-item" href="{% url 'show_club' club.id %}">{{club.name}}</a></li>
+        {% endfor %}
         <div class="dropdown-divider"></div>
         <li><a class="dropdown-item" href="{% url 'club_creator' %}">Create a club</a></li>
       </ul>

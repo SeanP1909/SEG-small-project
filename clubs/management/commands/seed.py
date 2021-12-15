@@ -37,6 +37,12 @@ class Command(BaseCommand):
                 description = fakeDescription,
             )
 
+            ClubMember.objects.create(
+                user = User.objects.get(username = "clubber"),
+                club = self.club,
+                role = 'OWN'
+            )
+
             self.clubs.append(self.club)
 
         n = 0

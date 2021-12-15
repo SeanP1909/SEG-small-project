@@ -231,6 +231,7 @@ def make_owner(request, club_id, user_id):
                 member.role = 'OWN'
                 member.save()
                 club.save()
+                messages.add_message(request, messages.SUCCESS, "Ownership passed!")
                 return redirect('show_club', club.id)
         else:
             messages.add_message(request, messages.ERROR, "Invalid credentials!")

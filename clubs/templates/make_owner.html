@@ -11,7 +11,8 @@
       <form action="{% url 'make_owner' club.id user.id %}" method="post">
         {% csrf_token %}
         {% include 'partials/bootstrap_form.html' with form=form %}
-        <input type="submit" value="Update" class="btn btn-primary">
+        <input type="submit" value="Pass ownership" class="btn btn-primary">
+        <a href="/club/{{club.id}}/memberlist" class="btn btn-secondary my-3">Cancel</a>
       </form>
     </div>
   </div>

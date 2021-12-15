@@ -9,7 +9,7 @@ class ClubListTest(TestCase):
     ]
 
     def setUp(self):
-        self.response = self.client.get('/clubs/', {'clubs':Club.objects.all()})
+        self.response = self.client.get('', {'clubs':Club.objects.all()})
 
     def test_url_clubs_existence(self):
         self.assertEqual(self.response.status_code, 200)
@@ -17,10 +17,7 @@ class ClubListTest(TestCase):
     def test_clubs_content_contains_ChessHub(self):
         self.assertEqual(self.response.status_code, 200)
         self.assertContains(self.response, 'ChessHub')
-        self.assertTemplateUsed(self.response, 'clubs.html')
-
-    def test_if_clubs_content_contains_chessList_header(self):
-        self.assertContains(self.response, 'Clubs list:')
+        self.assertTemplateUsed(self.response, 'home.html')
 
     def test_clubs1_url_does_not_exist_responses_404(self):
         self.assertEqual(self.client.get('/clubs1/').status_code, 404)

@@ -19,8 +19,6 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     clubs = Club.objects.all()
     user = request.user
-    if user.is_authenticated:
-        club_switcher(request)
     return render(request, 'home.html', {"clubs":clubs})
 
 def sign_up(request):

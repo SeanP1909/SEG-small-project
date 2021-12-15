@@ -5,7 +5,7 @@
       Your clubs
     </a>
       <ul class="dropdown-menu" aria-labelledby="club-list-dropdown">
-        {% for club in clubs %}
+        {% for club in club_list %}
         <li><a class="dropdown-item" href="{% url 'show_club' club.id %}">{{club.name}}</a></li>
         {% endfor %}
         <li><p class="dropdown-header">You're not a member of any clubs!<p></li>

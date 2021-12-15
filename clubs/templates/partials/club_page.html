@@ -23,9 +23,6 @@
     {% endif %}
 
     {% if club.owner.id == user.id %}
-    <form action="#">
-      <input type="submit" class="btn btn-secondary" value="Pass ownership"/>
-    </form>
     <a href="/club/{{club.id}}/memberlist" class="btn btn-primary my-3">View member list</a>
     <a href="/tournament/organize?club_id={{club.id}}" class="btn btn-primary my-3">Create tournament</a>
     {% endif %}

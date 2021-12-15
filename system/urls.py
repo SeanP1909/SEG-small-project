@@ -34,4 +34,5 @@ urlpatterns = [
     path('member/<userid>', views.member_id, name = 'member<userid>'),
     path('tournaments/', views.tournaments, name = 'tournaments'),
     path('tournament/organize', views.tournament_organize, name = 'tournament_creator'),
+    path('<int:club_id>/pass_ownership/<int:user_id>/', views.make_owner, name = 'make_owner'),
 ]

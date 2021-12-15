@@ -4,6 +4,10 @@
   <div class="row">
     <div class="col-sm-12 col-md-6 offset-md-3">
       <h1>Pass ownership</h1>
+      <p>You selected <b>{{user.username}}</b> to become the new owner of <b>{{club.name}}</b>.</p>
+      <p>Upon submission, you will lose your owner privileges and become an officer of <b>{{club.name}}</b>.</p>
+      <hr>
+      <p><b>The action is irreversible! Are you sure you would like to continue?</b></p>
       <form action="{% url 'make_owner' club.id user.id %}" method="post">
         {% csrf_token %}
         {% include 'partials/bootstrap_form.html' with form=form %}

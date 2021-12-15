@@ -8,7 +8,6 @@
         {% for club in club_list %}
         <li><a class="dropdown-item" href="{% url 'show_club' club.id %}">{{club.name}}</a></li>
         {% endfor %}
-        <li><p class="dropdown-header">You're not a member of any clubs!<p></li>
         <div class="dropdown-divider"></div>
         <li><a class="dropdown-item" href="{% url 'club_creator' %}">Create a club</a></li>
       </ul>

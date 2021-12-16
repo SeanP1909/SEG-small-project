@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% extends "base_content.html" %}
+{% block title %}
+| Club Application
+{% endblock %}
+{% block content %}
+
+{%if user.is_authenticated%}
+  {%if cU_pendingApp.status == 'P'%}
+    <p style="padding-left: 10px"> You already have a pending application to this club. </p>
+  {%elif cU_pendingApp.status == 'A'%}
+    <p style="padding-left: 10px"> You've already been accepted to this club. </p>
+  {%elif cU_pendingApp.status == 'D'%}
+    <p style="padding-left: 10px"> You've been rejected to this club. </p>
+  {%else%}
+    <div class="container">
+      <div class="row">
+        <h1>Club application</h1>
+        <div class="user-info">
+          <p> Personal details </p>
+          <p> (if you would like to change your name, bio, experience or email, please do so in your user profile)</p>
+          <p>Name: {{user.full_name}}</p>
+          <p>Bio: {{user.bio}}</p>
+          <p>experience: {{user.experience}}</p>
+          <p>email: {{user.email}}</p>
+        </div>
+        <form action="/club/{{clubid}}/apply" method="post">
+          {%csrf_token%}
+          {% include 'partials/club_application_form.html' with form=form %}
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+  {%endif%}
+{%else%}
+  <p style="padding-left: 10px"> You must be logged in to view this page. </p>
+{%endif%}
+{% endblock %}

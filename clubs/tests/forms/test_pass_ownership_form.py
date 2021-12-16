@@ -21,4 +21,14 @@ class PassOwnershipFormTestCase(TestCase):
 
     def test_valid_form(self):
         form = PassOwnershipForm(data=self.form_input)
-        self.assertTrue(form.is_valid())
+        self.assertTrue(form.is_valid()) 
+
+    def test_valid_form(self):
+        self.form_input['new_password'] = 'Wrongpassword123'
+        self.form_input['password_confirmation'] = 'Wrongpassword123'
+        form = PassOwnershipForm(data=self.form_input)
+        self.assertFalse(form.is_valid())
+        
+
+    
+    

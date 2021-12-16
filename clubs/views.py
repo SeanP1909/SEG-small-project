@@ -98,7 +98,6 @@ def show_club(request, club_id):
         instance = request.user
         exists_in_club = ClubMember.objects.filter(user=instance.id, club=club.id).prefetch_related('user').prefetch_related('club')
         tournaments = Tournament.objects.filter(club=club.id, finished=False)
-        print(tournaments)
         roleCheck = exists_in_club.first()
     except ObjectDoesNotExist:
         return redirect('home')

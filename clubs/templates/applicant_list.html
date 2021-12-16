@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% extends "base_content.html" %}
+{% block title %}
+| Member list
+{% endblock %}
+{% block content %}
+
+<section class="title-panel">
+    <div class="container">
+        <h1 class="title">{{club.name}} </h1>
+        <h2> Applicant list:</h2>
+    </div>
+</section>
+
+<section class="item-list-wrapper club-member-list">
+
+    <div class="container">
+
+        {% if user.is_authenticated and exists_in_club and rU_hasPriveleges %}
+
+        <ul class="vertical-list">
+          {%if applicants%}{% else %}<p class="pt-3">No applicants</p>{%endif%}
+            {% for apps in applicants %}
+            <li>
+
+              <div class="item">
+                <div class="item-inner d-flex align-items-center flex-wrap flex-sm-nowrap">
+
+                  <a href="/member/{{apps.user.id}}" class="item-col d-flex align-items-center w-100">
+
+                        <div class="item-avatar">
+                            <div class="image-wrapper">
+                                <img src="{{apps.user.gravatar}}" alt="profile avatar">
+                            </div>
+                        </div>
+
+                        <div class="item-details flex-wrap">
+                            <div class="column-spacer right">
+                                <div class="name py-2 px-3">{{apps.user.first_name}} {{apps.user.last_name}}</div>
+                            </div>
+
+                            <div class="column-spacer right d-flex align-items-center">
+                                <div class="rating-wrapper me-3">
+                                    Rating: <div class="badge bg-warning">N/A</div>
+                                </div>
+                                <i class="ico bi bi-info-circle"></i>
+                            </div>
+                        </div>
+
+                  </a>
+
+                  {% if rU_hasPriveleges %}
+
+                      <div class="item-col action-buttons-wrap d-flex align-items-center justify-content-end justify-content-sm-center p-3 p-sm-0 ps-sm-5 flex-grow-1">
+
+                      <a href="/club/{{ club.id }}/applicationlist/{{ apps.user.id }}/deny" class="btn btn-danger">Reject</a>
+
+                      <a href="/club/{{ club.id }}/applicationlist/{{ apps.user.id }}/accept" class="btn btn-info">Accept</a>
+
+                      </div>
+
+                  {% endif %}
+
+                </div>
+                <div class="item-content mt-4 px-2 break-word">
+                  <p>Personal statement:</p>
+                  <p>{{apps.personal_statement}}</p>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+
+        </ul>
+        {% else %}
+        <p>Sorry, you must be logged in and a member of this club to view the list.</p>
+        {% endif %}
+    </div>
+
+</section>
+
+
+{% endblock %}

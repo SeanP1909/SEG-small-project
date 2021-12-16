@@ -1,0 +1,24 @@
+{% extends 'base_content.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 offset-md-3">
+      <h1>Pass ownership</h1>
+      {% if club.owner.id == user.id %}
+      <p>You selected <b>{{selected_user.username}}</b> to become the new owner of <b>{{club.name}}</b>.</p>
+      <p>Upon submission, you will lose your owner privileges and become an officer of <b>{{club.name}}</b>.</p>
+      <hr>
+      <p><b>The action is irreversible! Are you sure you would like to continue?</b></p>
+      <form action="{% url 'make_owner' club.id selected_user.id %}" method="post">
+        {% csrf_token %}
+        {% include 'partials/bootstrap_form.html' with form=form %}
+        <input type="submit" value="Pass ownership" class="btn btn-primary">
+        <a href="/club/{{club.id}}/memberlist" class="btn btn-secondary my-3">Cancel</a>
+      </form>
+      {% else %}
+      <p>You must be the owner of <b>{{club.name}}</b> to access this page.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

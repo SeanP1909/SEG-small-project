@@ -10,7 +10,7 @@ from django.http import HttpResponseForbidden
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import SignUpForm, LogInForm, UpdateForm, PasswordForm, ClubCreationForm, TournamentForm, ClubApplicationForm
+from .forms import SignUpForm, LogInForm, UpdateForm, PasswordForm, ClubCreationForm, TournamentForm, ClubApplicationForm, PassOwnershipForm
 from .models import User, Club, Tournament, ClubMember, ClubOfficer, ClubMemberApplications
 
 from django.contrib.auth.decorators import login_required
@@ -53,10 +53,6 @@ def log_in(request):
 def log_out(request):
     logout(request)
     return redirect('home')
-
-def clubs(request):
-    clubs = Club.objects.all()
-    return render(request, 'clubs.html', {'clubs': clubs})
 
 @login_required
 def profile(request):
@@ -218,6 +214,30 @@ def club_switcher(request):
     return render(request, 'partials/menu.html', {'club_list': club_list})
 
 @login_required
+def make_owner(request, club_id, user_id):
+    club = Club.objects.get(id = club_id)
+    selected_user = User.objects.get(pk = user_id)
+    current_user = request.user
+    current_member = ClubMember.objects.get(user = current_user, club = club)
+    member = ClubMember.objects.get(user = selected_user, club = club)
+    if request.method=='POST':
+        form = PassOwnershipForm(request.POST)
+        if form.is_valid():
+            password = form.cleaned_data.get('password')
+            if check_password(password, current_user.password):
+                club.owner = selected_user
+                current_member.role = 'OFF'
+                current_member.save()
+                member.role = 'OWN'
+                member.save()
+                club.save()
+                messages.add_message(request, messages.SUCCESS, "Ownership passed!")
+                return redirect('show_club', club.id)
+        else:
+            messages.add_message(request, messages.ERROR, "Invalid credentials!")
+    form = PassOwnershipForm()
+    return render(request, 'make_owner.html', {'form': form, 'club': club, 'selected_user': selected_user})
+
 def tournament_edit(request, club_id, tournament_id):
     club = Club.objects.get(pk = club_id)
     tournament = Tournament.objects.get(pk = tournament_id, club = club)

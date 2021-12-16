@@ -57,6 +57,9 @@
                       <a href="/club/{{ club.id }}/memberlist/{{ club_member.user.id }}/promote" class="btn btn-info">Promote</a>
                       {% endif %}
                       </div>
+                      <div class="item-col d-flex align-items-center justify-content-end justify-content-sm-center p-3 p-sm-0 ps-sm-5 flex-grow-1">
+                        <a href="{% url 'make_owner' club.id club_member.user.id %}" class="btn btn-secondary">Pass ownership</a>
+                      </div>
                     {% endif %}
                   {% endif %}
 

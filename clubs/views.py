@@ -10,8 +10,8 @@ from django.http import HttpResponseForbidden
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import SignUpForm, LogInForm, UpdateForm, PasswordForm, ClubCreationForm, TournamentForm, PassOwnershipForm
-from .models import User, Club, Tournament, ClubMember, ClubOfficer
+from .forms import SignUpForm, LogInForm, UpdateForm, PasswordForm, ClubCreationForm, TournamentForm, ClubApplicationForm, PassOwnershipForm
+from .models import User, Club, Tournament, ClubMember, ClubOfficer, ClubMemberApplications
 
 from django.contrib.auth.decorators import login_required
 
@@ -99,12 +99,12 @@ def show_club(request, club_id):
         exists_in_club = ClubMember.objects.filter(user=instance.id, club=club.id).prefetch_related('user').prefetch_related('club')
         tournaments = Tournament.objects.filter(club=club.id, finished=False)
         print(tournaments)
-
+        roleCheck = exists_in_club.first()
     except ObjectDoesNotExist:
         return redirect('home')
     else:
         return render(request, 'show_club.html',
-            {'club': club, 'exists_in_club': exists_in_club, 'tournaments': tournaments}
+            {'club': club, 'exists_in_club': exists_in_club, 'tournaments': tournaments, 'roleCheck': roleCheck}
         )
 
 # View for the club creator
@@ -202,7 +202,7 @@ def tournament_organize(request):
     else:
         form = TournamentForm()
         request.session['club_id'] = request.GET.get('club_id')
-    return render(request, 'tournament_edit.html', {'form': form})
+    return render(request, 'tournament_new.html', {'form': form})
 
 def club_switcher(request):
     current_user = request.user
@@ -237,3 +237,92 @@ def make_owner(request, club_id, user_id):
             messages.add_message(request, messages.ERROR, "Invalid credentials!")
     form = PassOwnershipForm()
     return render(request, 'make_owner.html', {'form': form, 'club': club, 'selected_user': selected_user})
+
+def tournament_edit(request, club_id, tournament_id):
+    club = Club.objects.get(pk = club_id)
+    tournament = Tournament.objects.get(pk = tournament_id, club = club)
+
+    form = TournamentForm(instance = tournament)
+
+    return render(request, 'tournament_edit.html', {'form': form})
+
+@login_required
+def tournament_editor(request):
+    if(request.method == 'POST'):
+        form = TournamentForm(request.POST)
+        if form.is_valid():
+            tournament = Tournament.objects.get(id=form.cleaned_data.get('id'))
+            tournament.name = form.cleaned_data.get('name')
+            tournament.description = form.cleaned_data.get('description')
+            tournament.deadline = form.cleaned_data.get('deadline')
+            tournament.capacity = form.cleaned_data.get('capacity')
+            tournament.start = form.cleaned_data.get('start')
+            tournament.save()
+            return redirect('show_club', tournament.club.id)
+
+
+def club_application(request, club_id):
+    current_user = request.user
+    if current_user.is_authenticated:
+        cU_pendingApp = ClubMemberApplications.objects.filter(user=current_user.id,club=club_id).first()
+
+        if cU_pendingApp:
+            return render(request, 'club_application.html', {'cU_pendingApp': cU_pendingApp})
+        else:
+            if request.method=='POST':
+                form = ClubApplicationForm(request.POST, instance=current_user)
+                qryClub = Club.objects.get(id=club_id)
+                if form.is_valid():
+                    cleaned_statement = form.cleaned_data.get('personal_statement')
+                    clubMemberApplicant = ClubMemberApplications.objects.create(user=current_user, club=qryClub, personal_statement=cleaned_statement)
+                    messages.add_message(request, messages.SUCCESS, "You've successfully applied to this club")
+            else:
+                form = ClubApplicationForm(instance=current_user)
+            return render(request, 'club_application.html', {'form': form, 'clubid': club_id})
+    else:
+        return render(request, 'club_application.html', {})
+
+def application_list(request, club_id):
+    try:
+        rU = request.user
+        rU_hasPriveleges = False
+        qryClub = Club.objects.get(id=club_id)
+        allApplicants = ClubMemberApplications.objects.filter(club=qryClub.id, status='P')
+        rU_existsInCLub = ClubMember.objects.get(user=rU.id,club=qryClub.id)
+
+        if rU_existsInCLub:
+            if rU_existsInCLub.role == "OFF" or rU_existsInCLub.role == "OWN":
+                rU_hasPriveleges = True
+            else:
+                rU_hasPriveleges = False
+    except ObjectDoesNotExist:
+            return redirect('home')
+    else:
+        return render(request, 'applicant_list.html', {'applicants':allApplicants, 'club':qryClub, 'exists_in_club':rU_existsInCLub, 'rU_hasPriveleges': rU_hasPriveleges})
+
+def application_list_action(request, club_id, userid, action):
+    rU = request.user
+    qryUser = User.objects.get(id=userid)
+    qryClub = Club.objects.get(id=club_id)
+
+    instance_qryUser = qryUser
+    instance_qryClub = qryClub
+
+    rU_existsInCLub = ClubMember.objects.get(user=rU.id,club=instance_qryClub.id)
+    rU_hasPriveleges = True if (rU_existsInCLub.role == "OFF" or rU_existsInCLub.role == "OWN") else False
+    qryUser_clubApplicationInstance = ClubMemberApplications.objects.filter(user=instance_qryUser.id,club=instance_qryClub.id)
+
+    if(rU_existsInCLub and rU_hasPriveleges):
+
+        if(action == 'accept'):
+            if(qryUser_clubApplicationInstance.exists() and qryUser_clubApplicationInstance.first().status == 'P'):
+                acceptApplication = qryUser_clubApplicationInstance.update(status='A')
+                newclubmember = ClubMember.objects.create(user=instance_qryUser, club=instance_qryClub, role="MEM")
+
+        if(action == 'deny'):
+            if(qryUser_clubApplicationInstance.exists() and qryUser_clubApplicationInstance.first().status == 'P'):
+                acceptApplication = qryUser_clubApplicationInstance.update(status='D')
+
+    allApplicants = ClubMemberApplications.objects.filter(club=qryClub.id).prefetch_related('user').prefetch_related('club')
+    rU_existsInCLub = ClubMember.objects.filter(user=rU.id,club=qryClub.id).exists()
+    return render(request, 'applicant_list.html', {'members':allApplicants, 'club':qryClub, 'exists_in_club':rU_existsInCLub, 'rU_hasPriveleges': rU_hasPriveleges})

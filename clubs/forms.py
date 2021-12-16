@@ -1,6 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
-from .models import User, Club, Tournament
+from .models import User, Club, Tournament, ClubMemberApplications
 from django.contrib.auth.forms import UserChangeForm
 
 class SignUpForm(forms.ModelForm):
@@ -79,6 +79,7 @@ class ClubCreationForm(forms.ModelForm):
         widgets = { "description": forms.Textarea() }
 
 class TournamentForm(forms.ModelForm):
+    id = forms.CharField(widget=forms.HiddenInput())
     class Meta:
         model = Tournament
         fields = ["name", "description", "capacity", "deadline", "start"]
@@ -95,3 +96,9 @@ class PassOwnershipForm(forms.Form):
         password_confirmation = self.cleaned_data.get('password_confirmation')
         if password_confirmation != password:
             self.add_error('password_confirmation', "Passwords don't match!")
+
+class ClubApplicationForm(forms.ModelForm):
+    class Meta:
+        model = ClubMemberApplications
+        fields = ["personal_statement"]
+        widgets = { "personal_statement": forms.Textarea() }

@@ -34,4 +34,9 @@ urlpatterns = [
     path('tournaments/', views.tournaments, name = 'tournaments'),
     path('tournament/organize', views.tournament_organize, name = 'tournament_creator'),
     path('<int:club_id>/pass_ownership/<int:user_id>/', views.make_owner, name = 'make_owner'),
+    path('club/<int:club_id>/tournament/edit/<int:tournament_id>', views.tournament_edit, name = 'tournament_edit'),
+    path('tournament/editor', views.tournament_editor, name = 'tournament_editor'),
+    path('club/<int:club_id>/apply', views.club_application, name = 'club_application'),
+    path('club/<int:club_id>/applicationlist', views.application_list, name = 'application_list'),
+    path('club/<int:club_id>/applicationlist/<userid>/<str:action>/', views.application_list_action, name = 'application_list_action'),
 ]

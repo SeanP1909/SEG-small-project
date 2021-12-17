@@ -1,0 +1,10 @@
+<div class="dropdown">
+  <button type="button" class="btn btn-primary dropdown-toggle mx-30" data-bs-toggle="dropdown">
+    Your Clubs
+  </button>
+  <ul id="clubs-drop-down" class="dropdown-menu">
+    {% for club in user_clubs %}
+    <li><a class="dropdown-item" href='{% url 'switch_club' club.id %}'>{{ club.club_name }}</a></li>
+    {% endfor %}
+  </ul>
+</div>

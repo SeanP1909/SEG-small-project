@@ -1,0 +1,31 @@
+{% extends 'base_content.html' %}
+{% block content %}
+<div id= "profile">
+<div class="container">
+  <div class= "card">
+  <div class="row">
+    <div class="col-12">
+      <h1><u>MY PROFILE</u></h1>
+      
+        <img src="{{ user.gravatar }}" alt="Gravatar of {{ user.username }}" class="rounded-circle profile-image" >
+      <div class="profile-text">
+        <h5 class="profile-username">{{user.full_name}}</h5>
+        <p class="profile-username">{{user.email}}</p>
+      </div>
+      <div>
+        <h3> BIO:</h3>
+        <p class="profile-bio">{{user.bio}}</p>
+        <h3> PERSONAL STATEMENT:</h3>
+        <p class="profile-bio">{{user.personalStatement}}</p>
+        <h3> CHESS LEVEL:</h3>
+        <p class="profile-bio">{{user.experienceLevel}}</p>
+        <h3> RANK:</h3>
+        <p class="profile-bio">{{current_rank}}</p>
+      
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}

@@ -1,12 +1,12 @@
-# Team *enter team name here* Small Group project
+# Team *Llama* Small Group project
 
 ## Team members
 The members of the team are:
-- *Enter member 1*
-- *Enter member 2*
-- *Enter member 3*
-- *Enter member 4*
-*Add any further information about the team here, such as absent team members.*
+- Bartosz Chrupala K20054839
+- Zifan Wang K1923847
+- Anup Ramesha K20055112
+- Mehrab Rahman K20017471
+- Tigerlily Williams K20066796
 
 ## Project structure
 The project is called `system`.  It currently consists of a single app `clubs`.
@@ -51,3 +51,5 @@ $ python3 manage.py test
 The packages used by this application are specified in `requirements.txt`
 
 *Declare are other sources here.*
+
+Clucker model answers.
